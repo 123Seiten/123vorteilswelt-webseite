@@ -11,6 +11,58 @@
       <a href="#kosten">Kosten</a>
       <a href="#fragen">Fragen</a>
     </nav>
-    <a class="btn btn--sm" href="#anfrage" style="flex:0 0 auto">Analyse anfordern</a>
+    <div class="header-actions">
+      <a class="btn btn--sm header-cta" href="#anfrage">Analyse anfordern</a>
+      <button class="nav-toggle" type="button" id="navToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Menü öffnen">
+        <span class="nav-toggle-bars" aria-hidden="true"></span>
+      </button>
+    </div>
   </div>
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile Navigation">
+    <a href="#ablauf">Ablauf</a>
+    <a href="#bereiche">Bereiche</a>
+    <a href="#kosten">Kosten</a>
+    <a href="#fragen">Fragen</a>
+    <a href="#anfrage" class="mobile-nav-cta">Analyse anfordern</a>
+  </nav>
 </header>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('navToggle');
+    var panel = document.getElementById('mobileNav');
+    if (!toggle || !panel) return;
+
+    function closeMenu() {
+      panel.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+    function openMenu() {
+      panel.classList.add('is-open');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+
+    toggle.addEventListener('click', function () {
+      if (panel.classList.contains('is-open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    panel.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!panel.classList.contains('is-open')) return;
+      var target = e.target as Node;
+      if (panel.contains(target) || toggle.contains(target)) return;
+      closeMenu();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeMenu();
+    });
+  })();
+</script>

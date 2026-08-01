@@ -76,6 +76,52 @@ header{
 .nav a:hover{color:var(--green)}
 @media(min-width:920px){.nav{display:flex}}
 
+/* ---------- Header actions / mobile menu ---------- */
+.header-actions{display:flex;align-items:center;gap:14px}
+.header-actions .header-cta{display:none}
+@media(min-width:920px){.header-actions .header-cta{display:inline-flex}}
+
+.nav-toggle{
+  display:flex;align-items:center;justify-content:center;
+  width:40px;height:40px;padding:0;border:1.5px solid var(--grey-300);
+  background:var(--white);border-radius:var(--r);cursor:pointer;flex:0 0 auto;
+}
+.nav-toggle:hover{border-color:var(--green)}
+.nav-toggle:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+@media(min-width:920px){.nav-toggle{display:none}}
+
+.nav-toggle-bars,
+.nav-toggle-bars::before,
+.nav-toggle-bars::after{
+  content:"";display:block;width:18px;height:2px;background:var(--ink);
+  transition:transform .18s ease,opacity .18s ease,background .18s ease;
+}
+.nav-toggle-bars{position:relative}
+.nav-toggle-bars::before{position:absolute;top:-6px;left:0}
+.nav-toggle-bars::after{position:absolute;top:6px;left:0}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars{background:transparent}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars::before{transform:translateY(6px) rotate(45deg)}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars::after{transform:translateY(-6px) rotate(-45deg)}
+
+.mobile-nav{
+  display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;
+  background:rgba(255,255,255,.98);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--grey-150);box-shadow:0 16px 30px -20px rgba(0,0,0,.35);
+}
+.mobile-nav.is-open{display:flex}
+.mobile-nav a{
+  padding:16px 24px;color:var(--grey-700);text-decoration:none;
+  font-size:.98rem;font-weight:500;border-top:1px solid var(--grey-150);
+}
+.mobile-nav a:first-child{border-top:0}
+.mobile-nav a:hover{color:var(--green);background:var(--grey-100)}
+.mobile-nav a.mobile-nav-cta{
+  color:var(--white);background:var(--green);text-align:center;font-weight:600;
+  margin:12px 24px 16px;padding:14px 20px;border-radius:var(--r);border-top:0;
+}
+.mobile-nav a.mobile-nav-cta:hover{background:var(--green-dark);color:var(--white)}
+@media(min-width:920px){.mobile-nav{display:none!important}}
+
 /* ---------- Buttons ---------- */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:10px;
