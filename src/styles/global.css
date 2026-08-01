@@ -371,6 +371,14 @@ footer a:hover{color:var(--green)}
 .franchise-link a{display:inline;color:var(--green);text-decoration:underline}
 .fbottom{border-top:1px solid #2a2e31;margin-top:38px;padding-top:22px;font-size:.8rem;color:#71777d}
 
+/* ---------- Rechtstexte (Impressum etc.) ---------- */
+.legal{max-width:70ch;margin-top:38px;display:flex;flex-direction:column;gap:32px}
+.legal-section h3{margin-bottom:10px}
+.legal-section p{color:var(--grey-700);font-size:.97rem;line-height:1.7}
+.legal-section p + p{margin-top:10px}
+.legal-section a{color:var(--green);text-decoration:underline}
+.legal-section a:hover{color:var(--green-dark)}
+
 /* ---------- Sticky mobile CTA ---------- */
 .sticky{
   position:fixed;left:0;right:0;bottom:0;z-index:70;background:var(--white);
