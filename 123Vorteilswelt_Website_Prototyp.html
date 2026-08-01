@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>123Vorteilswelt – Prototyp Kundenwebseite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#139e1c;
+  --green-dark:#0d7714;
+  --green-tint:#eaf6ea;
+  --ink:#111315;
+  --ink-2:#1c1f21;
+  --grey-700:#4a4f54;
+  --grey-500:#71777d;
+  --grey-300:#d6d9dc;
+  --grey-150:#e9ebed;
+  --grey-100:#f3f4f5;
+  --white:#ffffff;
+  --wrap:1120px;
+  --r:4px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  color:var(--ink);
+  background:var(--white);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  font-feature-settings:"tnum" 0;
+}
+img{max-width:100%;display:block}
+
+/* ---------- Typo ---------- */
+.display{
+  font-family:'Big Shoulders Display','Inter',sans-serif;
+  text-transform:uppercase;
+  font-weight:700;
+  line-height:.95;
+  letter-spacing:.005em;
+}
+h1.display{font-size:clamp(2.9rem,8vw,5.4rem)}
+h2.display{font-size:clamp(2rem,4.6vw,3.2rem)}
+h3.display{font-size:clamp(1.35rem,2.4vw,1.7rem)}
+.eyebrow{
+  font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--green);margin-bottom:1rem;
+}
+.eyebrow.on-dark{color:#7fd287}
+.lead{font-size:clamp(1.03rem,1.6vw,1.22rem);color:var(--grey-700);max-width:62ch}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- Layout ---------- */
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.band{padding:clamp(56px,8vw,104px) 0}
+.band--grey{background:var(--grey-100)}
+.band--dark{background:var(--ink);color:var(--white)}
+.band--dark .lead{color:#b9bec3}
+.band--green{background:var(--green);color:var(--white)}
+.rule{width:56px;height:4px;background:var(--green);margin-bottom:1.5rem}
+.rule.on-dark{background:var(--green)}
+
+/* ---------- Prototype notice ---------- */
+.proto{
+  background:var(--ink);color:#c9ced3;font-size:.78rem;
+  padding:9px 24px;text-align:center;letter-spacing:.02em;
+}
+.proto b{color:var(--white);font-weight:600}
+
+/* ---------- Header ---------- */
+header{
+  position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--grey-150);
+}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:74px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.logo svg{width:38px;height:38px;flex:0 0 auto}
+.logo-txt{font-family:'Big Shoulders Display','Inter',sans-serif;font-weight:700;font-size:1.55rem;line-height:1;letter-spacing:.01em}
+.logo-txt span{color:var(--green)}
+.logo-sub{display:block;font-family:'Inter',sans-serif;font-size:.53rem;letter-spacing:.22em;text-transform:uppercase;color:var(--grey-500);font-weight:600;margin-top:3px}
+.nav{display:none;gap:30px}
+.nav a{color:var(--grey-700);text-decoration:none;font-size:.9rem;font-weight:500}
+.nav a:hover{color:var(--green)}
+@media(min-width:920px){.nav{display:flex}}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--green);color:var(--white);text-decoration:none;
+  font-weight:600;font-size:1rem;padding:16px 30px;border:0;border-radius:var(--r);
+  cursor:pointer;transition:background .16s ease,transform .16s ease;
+  font-family:'Inter',sans-serif;line-height:1.2;
+}
+.btn:hover{background:var(--green-dark)}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.btn--sm{padding:11px 20px;font-size:.9rem}
+.btn--ghost{background:transparent;color:var(--white);border:1.5px solid rgba(255,255,255,.45)}
+.btn--ghost:hover{background:rgba(255,255,255,.12)}
+.btn[disabled]{background:var(--grey-300);color:var(--grey-500);cursor:not-allowed}
+.btn-note{font-size:.82rem;color:var(--grey-500);margin-top:14px}
+.band--dark .btn-note{color:#9aa0a6}
+
+/* ---------- Hero ---------- */
+.hero{padding:clamp(48px,7vw,88px) 0 clamp(48px,7vw,80px);background:var(--white);position:relative;overflow:hidden}
+.hero::after{
+  content:"";position:absolute;right:-160px;top:-120px;width:520px;height:520px;
+  border:90px solid var(--green-tint);border-radius:50%;z-index:0;
+}
+.hero .wrap{position:relative;z-index:1}
+.hero-grid{display:grid;gap:44px;align-items:center}
+@media(min-width:900px){.hero-grid{grid-template-columns:1.15fr .85fr;gap:56px}}
+.hero h1{margin-bottom:1.4rem}
+.hero h1 em{font-style:normal;color:var(--green)}
+.hero-sub{font-size:clamp(1.05rem,1.8vw,1.3rem);color:var(--grey-700);max-width:54ch;margin-bottom:2rem}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.hero-facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.fact{
+  font-size:.82rem;font-weight:500;color:var(--grey-700);
+  border:1px solid var(--grey-300);border-radius:100px;padding:7px 15px;background:var(--white);
+}
+.fact b{color:var(--green);font-weight:700}
+
+/* Hero visual: Kostenblatt */
+.sheet{
+  background:var(--white);border:1px solid var(--grey-300);
+  box-shadow:0 20px 50px -28px rgba(0,0,0,.4);padding:26px 24px 22px;
+}
+.sheet-head{
+  display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:6px;
+}
+.sheet-head span{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--grey-500);font-weight:600}
+.sheet-head strong{font-family:'Big Shoulders Display','Inter',sans-serif;text-transform:uppercase;font-size:1.25rem;font-weight:700}
+.row{display:flex;align-items:baseline;gap:8px;padding:9px 0;font-size:.9rem}
+.row + .row{border-top:1px dotted var(--grey-300)}
+.row .k{color:var(--grey-700)}
+.row .dots{flex:1;border-bottom:1px dotted var(--grey-300);transform:translateY(-4px)}
+.row .v{font-variant-numeric:tabular-nums;font-weight:600;color:var(--grey-500);text-decoration:line-through}
+.row .v2{font-variant-numeric:tabular-nums;font-weight:700;color:var(--green)}
+.sheet-total{
+  margin-top:14px;background:var(--ink);color:var(--white);
+  padding:14px 16px;display:flex;justify-content:space-between;align-items:center;
+}
+.sheet-total span{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#b9bec3;font-weight:600}
+.sheet-total strong{font-family:'Big Shoulders Display','Inter',sans-serif;font-size:1.9rem;font-weight:800;color:#4ade55;font-variant-numeric:tabular-nums;line-height:1}
+.sheet-foot{font-size:.7rem;color:var(--grey-500);margin-top:10px;text-align:right}
+
+/* ---------- Trust bar ---------- */
+.trust{border-top:1px solid var(--grey-150);border-bottom:1px solid var(--grey-150);background:var(--grey-100)}
+.trust-in{display:flex;flex-wrap:wrap;gap:14px 34px;align-items:center;justify-content:center;padding:18px 0}
+.trust-in div{display:flex;align-items:center;gap:9px;font-size:.83rem;color:var(--grey-700);font-weight:500}
+.trust-in svg{width:17px;height:17px;flex:0 0 auto;color:var(--green)}
+
+/* ---------- Problem ---------- */
+.pain{display:grid;gap:14px;margin-top:34px}
+@media(min-width:760px){.pain{grid-template-columns:1fr 1fr;gap:16px 28px}}
+.pain li{list-style:none;display:flex;gap:14px;background:var(--white);border:1px solid var(--grey-150);padding:20px 22px}
+.pain li b{font-family:'Big Shoulders Display','Inter',sans-serif;font-size:1.5rem;color:var(--grey-300);line-height:1;flex:0 0 auto;font-weight:700}
+.pain li p{font-size:.96rem;color:var(--grey-700)}
+.bridge{margin-top:34px;font-family:'Big Shoulders Display','Inter',sans-serif;text-transform:uppercase;font-size:clamp(1.5rem,3vw,2.1rem);font-weight:700;line-height:1.05}
+.bridge em{font-style:normal;color:var(--green)}
+
+/* ---------- Steps ---------- */
+.steps{display:grid;gap:2px;margin-top:44px;background:rgba(255,255,255,.14)}
+@media(min-width:820px){.steps{grid-template-columns:repeat(3,1fr)}}
+.step{background:var(--ink);padding:32px 28px 34px}
+.step-n{
+  font-family:'Big Shoulders Display','Inter',sans-serif;font-size:3.4rem;font-weight:800;
+  color:var(--green);line-height:.8;margin-bottom:18px;display:block;
+}
+.step h3{margin-bottom:10px;color:var(--white)}
+.step p{color:#b9bec3;font-size:.96rem}
+.steps-note{
+  margin-top:34px;border-left:3px solid var(--green);padding:4px 0 4px 20px;
+  color:#d3d7da;font-size:1rem;max-width:60ch;
+}
+.steps-note b{color:var(--white)}
+
+/* ---------- Bereiche / Prüfauftrag ---------- */
+.areas-head{max-width:60ch}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:34px}
+@media(min-width:640px){.tiles{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:960px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tile{
+  position:relative;background:var(--white);border:1.5px solid var(--grey-300);
+  padding:20px 16px 18px;text-align:left;cursor:pointer;font-family:inherit;
+  font-size:.94rem;font-weight:600;color:var(--ink);line-height:1.3;
+  transition:border-color .14s ease,background .14s ease,box-shadow .14s ease;
+}
+.tile small{display:block;font-weight:400;font-size:.78rem;color:var(--grey-500);margin-top:5px;line-height:1.4}
+.tile:hover{border-color:var(--green)}
+.tile:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.tile[aria-pressed="true"]{border-color:var(--green);background:var(--green-tint);box-shadow:inset 0 0 0 1px var(--green)}
+.tick{
+  position:absolute;top:11px;right:11px;width:19px;height:19px;border-radius:50%;
+  background:var(--green);color:#fff;display:none;align-items:center;justify-content:center;
+}
+.tile[aria-pressed="true"] .tick{display:flex}
+.tick svg{width:11px;height:11px}
+
+/* Prüfauftrag panel */
+.order{
+  margin-top:34px;background:var(--white);border:1px solid var(--grey-300);
+  display:grid;gap:0;
+}
+@media(min-width:860px){.order{grid-template-columns:1.25fr .75fr}}
+.order-list{padding:26px 26px 24px}
+.order-head{
+  display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:4px;
+}
+.order-head strong{font-family:'Big Shoulders Display','Inter',sans-serif;text-transform:uppercase;font-size:1.3rem;font-weight:700}
+.order-head span{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--grey-500);font-weight:600}
+#orderItems{list-style:none}
+#orderItems li{display:flex;align-items:baseline;gap:8px;padding:10px 0;font-size:.93rem;animation:slide .22s ease}
+#orderItems li + li{border-top:1px dotted var(--grey-300)}
+#orderItems .dots{flex:1;border-bottom:1px dotted var(--grey-300);transform:translateY(-4px)}
+#orderItems .st{font-size:.78rem;font-weight:600;color:var(--green);letter-spacing:.06em;text-transform:uppercase}
+@keyframes slide{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.order-empty{padding:16px 0 6px;color:var(--grey-500);font-size:.93rem}
+.order-act{background:var(--grey-100);padding:26px;display:flex;flex-direction:column;justify-content:center;gap:12px;border-top:1px solid var(--grey-300)}
+@media(min-width:860px){.order-act{border-top:0;border-left:1px solid var(--grey-300)}}
+.order-count{font-family:'Big Shoulders Display','Inter',sans-serif;font-size:3rem;font-weight:800;line-height:.85;color:var(--ink)}
+.order-count small{display:block;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:500;color:var(--grey-500);letter-spacing:.03em;text-transform:none;margin-top:8px;line-height:1.4}
+
+/* ---------- Kosten ---------- */
+.price-claim{font-family:'Big Shoulders Display','Inter',sans-serif;text-transform:uppercase;font-weight:800;font-size:clamp(2.4rem,7vw,4.6rem);line-height:.92;margin-bottom:1.6rem}
+.calc{display:grid;gap:2px;margin-top:40px;background:rgba(255,255,255,.28)}
+@media(min-width:720px){.calc{grid-template-columns:repeat(3,1fr)}}
+.calc div{background:var(--green);padding:24px 22px}
+.calc .lbl{font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,.8);margin-bottom:8px}
+.calc .val{font-family:'Big Shoulders Display','Inter',sans-serif;font-size:2.5rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.calc .hint{font-size:.82rem;color:rgba(255,255,255,.82);margin-top:6px}
+.calc div.keep{background:var(--white);color:var(--ink)}
+.calc div.keep .lbl{color:var(--green)}
+.calc div.keep .hint{color:var(--grey-500)}
+.calc-note{font-size:.83rem;color:rgba(255,255,255,.82);margin-top:16px}
+
+/* ---------- Partner ---------- */
+.partner{display:grid;gap:34px;align-items:start;margin-top:38px}
+@media(min-width:860px){.partner{grid-template-columns:.9fr 1.1fr;gap:48px}}
+.pcard{background:var(--white);border:1px solid var(--grey-300);padding:26px}
+.pavatar{width:104px;height:104px;border-radius:50%;background:var(--grey-150);border:3px solid var(--green);display:flex;align-items:center;justify-content:center;color:var(--grey-500);font-size:.68rem;text-align:center;line-height:1.3;margin-bottom:18px;padding:8px}
+.pcard h3{margin-bottom:4px}
+.pcard .role{font-size:.83rem;color:var(--green);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px}
+.pcard p{font-size:.95rem;color:var(--grey-700)}
+.assure{display:grid;gap:16px}
+.assure li{list-style:none;display:flex;gap:14px;align-items:flex-start}
+.assure svg{width:22px;height:22px;flex:0 0 auto;color:var(--green);margin-top:2px}
+.assure b{display:block;margin-bottom:3px}
+.assure p{font-size:.93rem;color:var(--grey-700)}
+.seal{display:flex;gap:16px;align-items:center;margin-top:26px;background:var(--grey-100);border:1px solid var(--grey-150);padding:18px 20px}
+.seal-badge{width:62px;height:62px;border-radius:50%;border:2px solid var(--grey-300);display:flex;align-items:center;justify-content:center;font-size:.56rem;text-align:center;color:var(--grey-500);flex:0 0 auto;line-height:1.2;padding:6px;background:var(--white)}
+.seal p{font-size:.87rem;color:var(--grey-700)}
+
+/* ---------- Cases ---------- */
+.cases{display:grid;gap:16px;margin-top:38px}
+@media(min-width:820px){.cases{grid-template-columns:repeat(3,1fr)}}
+.case{border:1.5px dashed var(--grey-300);background:var(--white);padding:26px 24px}
+.case .meta{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--grey-500);font-weight:600;margin-bottom:14px}
+.case .big{font-family:'Big Shoulders Display','Inter',sans-serif;font-size:2.6rem;font-weight:800;line-height:.9;color:var(--green);font-variant-numeric:tabular-nums}
+.case .big small{display:block;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:500;color:var(--grey-500);text-transform:none;margin-top:8px}
+.case q{display:block;font-size:.9rem;color:var(--grey-700);font-style:italic;margin-top:16px;padding-top:16px;border-top:1px solid var(--grey-150)}
+.ph{background:#fff8e1;border:1px solid #f0d98a;color:#7a5c00;font-size:.83rem;padding:12px 16px;margin-top:24px}
+
+/* ---------- FAQ ---------- */
+.faq{margin-top:38px;border-top:1px solid var(--grey-300);max-width:840px}
+details{border-bottom:1px solid var(--grey-300)}
+summary{
+  cursor:pointer;padding:20px 44px 20px 0;position:relative;
+  font-weight:600;font-size:1.02rem;list-style:none;
+}
+summary::-webkit-details-marker{display:none}
+summary:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+summary::after{
+  content:"";position:absolute;right:8px;top:50%;width:11px;height:11px;
+  border-right:2px solid var(--green);border-bottom:2px solid var(--green);
+  transform:translateY(-70%) rotate(45deg);transition:transform .18s ease;
+}
+details[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+details p{padding:0 0 22px;color:var(--grey-700);font-size:.97rem;max-width:70ch}
+
+/* ---------- Formular ---------- */
+.formwrap{display:grid;gap:38px;margin-top:38px}
+@media(min-width:900px){.formwrap{grid-template-columns:.85fr 1.15fr;gap:52px}}
+.formcard{background:var(--white);padding:30px 28px 32px;border:1px solid var(--grey-300)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
+.chip{background:var(--green-tint);border:1px solid var(--green);color:var(--green-dark);font-size:.79rem;font-weight:600;padding:6px 12px;border-radius:100px}
+.chip--none{background:var(--grey-100);border-color:var(--grey-300);color:var(--grey-500);font-weight:500}
+.fields{display:grid;gap:16px}
+@media(min-width:560px){.fields{grid-template-columns:1fr 1fr}.f-full{grid-column:1/-1}}
+label{display:block;font-size:.82rem;font-weight:600;margin-bottom:6px;color:var(--grey-700)}
+input{
+  width:100%;padding:13px 14px;border:1.5px solid var(--grey-300);border-radius:var(--r);
+  font-family:inherit;font-size:.98rem;color:var(--ink);background:var(--white);
+}
+input:focus{outline:0;border-color:var(--green);box-shadow:0 0 0 3px var(--green-tint)}
+.consent{font-size:.8rem;color:var(--grey-500);margin-top:18px;max-width:60ch}
+.formcard .btn{margin-top:22px;width:100%}
+.reasons{display:grid;gap:18px}
+.reasons li{list-style:none;display:flex;gap:13px;align-items:flex-start}
+.reasons svg{width:20px;height:20px;color:var(--green);flex:0 0 auto;margin-top:3px}
+.reasons b{display:block;font-size:.98rem}
+.reasons p{font-size:.9rem;color:#b9bec3}
+
+/* Terminstufe */
+.slotgrid{display:grid;gap:10px;margin:22px 0 6px}
+@media(min-width:520px){.slotgrid{grid-template-columns:1fr 1fr}}
+.slot{
+  border:1.5px solid var(--grey-300);background:var(--white);padding:15px 16px;
+  text-align:left;cursor:pointer;font-family:inherit;font-size:.93rem;font-weight:600;color:var(--ink);
+}
+.slot small{display:block;font-weight:400;color:var(--grey-500);font-size:.8rem;margin-top:3px}
+.slot:hover{border-color:var(--green)}
+.slot[aria-pressed="true"]{border-color:var(--green);background:var(--green-tint)}
+.stage-title{margin-bottom:6px}
+.done{text-align:center;padding:12px 0 4px}
+.done-ring{width:64px;height:64px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.done-ring svg{width:28px;height:28px}
+.hidden{display:none}
+
+/* ---------- Footer ---------- */
+footer{background:var(--ink);color:#9aa0a6;padding:56px 0 34px;font-size:.88rem}
+.fgrid{display:grid;gap:30px}
+@media(min-width:760px){.fgrid{grid-template-columns:1.4fr 1fr 1fr}}
+footer h4{font-family:'Big Shoulders Display','Inter',sans-serif;text-transform:uppercase;color:var(--white);font-size:1.05rem;letter-spacing:.05em;margin-bottom:14px;font-weight:700}
+footer a{color:#9aa0a6;text-decoration:none;display:block;padding:4px 0}
+footer a:hover{color:var(--green)}
+.franchise-link{border:1px solid #33383c;padding:18px 20px;margin-top:26px}
+.franchise-link b{color:var(--white)}
+.franchise-link a{display:inline;color:var(--green);text-decoration:underline}
+.fbottom{border-top:1px solid #2a2e31;margin-top:38px;padding-top:22px;font-size:.8rem;color:#71777d}
+
+/* ---------- Sticky mobile CTA ---------- */
+.sticky{
+  position:fixed;left:0;right:0;bottom:0;z-index:70;background:var(--white);
+  border-top:1px solid var(--grey-300);padding:11px 16px;
+  box-shadow:0 -6px 22px -14px rgba(0,0,0,.5);
+}
+.sticky .btn{width:100%}
+@media(min-width:900px){.sticky{display:none}}
+@media(max-width:899px){body{padding-bottom:78px}}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="proto"><b>Prototyp</b> · Entwurf zur Abstimmung · Bilder, Logo und Fallbeispiele sind Platzhalter · Es werden keine Daten übertragen</div>
+
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#top">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="21" fill="none" stroke="#d6d9dc" stroke-width="2.5"/>
+        <path d="M13 25.5 L21 33 L36 13" fill="none" stroke="#139e1c" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>
+        <span class="logo-txt">123Vorteilswelt<span>.at</span></span>
+        <span class="logo-sub">Preise für Profis</span>
+      </span>
+    </a>
+    <nav class="nav">
+      <a href="#ablauf">Ablauf</a>
+      <a href="#bereiche">Bereiche</a>
+      <a href="#kosten">Kosten</a>
+      <a href="#fragen">Fragen</a>
+    </nav>
+    <a class="btn btn--sm" href="#anfrage" style="flex:0 0 auto">Analyse anfordern</a>
+  </div>
+</header>
+
+<!-- 1 — HERO -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Einkaufsvorteile für Klein- und Mittelbetriebe</p>
+      <h1 class="display">Ihre Einkaufs&shy;abteilung. <em>Ohne Ihre Einkaufs&shy;abteilung.</em></h1>
+      <p class="hero-sub">Große Konzerne haben Profis, die jeden Vertrag verhandeln. Sie haben jetzt uns. Strom, Versicherung, Fuhrpark, Material – wir holen für Sie die Konditionen der Großen heraus.</p>
+      <div class="hero-cta">
+        <a class="btn" href="#bereiche">Kostenlose Einkaufsanalyse anfordern</a>
+      </div>
+      <p class="btn-note">Unverbindlich · Keine Vorkosten · Vergütung nur bei tatsächlicher Ersparnis</p>
+      <div class="hero-facts">
+        <span class="fact"><b>10–15 %</b>&nbsp;durchschnittliche Ersparnis</span>
+        <span class="fact"><b>Jährlich</b>&nbsp;neu verhandelt</span>
+        <span class="fact"><b>Österreichweit</b>&nbsp;regional betreut</span>
+      </div>
+    </div>
+
+    <div class="sheet" aria-label="Beispielhafte Kostenaufstellung">
+      <div class="sheet-head">
+        <strong>Kostenblatt</strong>
+        <span>Beispiel</span>
+      </div>
+      <div class="row"><span class="k">Strom &amp; Gas</span><span class="dots"></span><span class="v num">8.400 €</span><span class="v2 num">6.700 €</span></div>
+      <div class="row"><span class="k">Versicherungen</span><span class="dots"></span><span class="v num">6.200 €</span><span class="v2 num">5.100 €</span></div>
+      <div class="row"><span class="k">Fuhrpark</span><span class="dots"></span><span class="v num">14.900 €</span><span class="v2 num">13.200 €</span></div>
+      <div class="row"><span class="k">Telekommunikation</span><span class="dots"></span><span class="v num">2.100 €</span><span class="v2 num">1.450 €</span></div>
+      <div class="row"><span class="k">Material</span><span class="dots"></span><span class="v num">31.000 €</span><span class="v2 num">27.800 €</span></div>
+      <div class="sheet-total">
+        <span>Ersparnis pro Jahr</span>
+        <strong class="num">9.350 €</strong>
+      </div>
+      <p class="sheet-foot">Beispielhafte Darstellung – Ihre Zahlen ermitteln wir kostenlos.</p>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="wrap trust-in">
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> SILBER-Zertifizierung UnternehmerCircle</div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Persönlicher Ansprechpartner in Ihrer Region</div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg> Ihre Zahlen bleiben vertraulich</div>
+  </div>
+</div>
+
+<!-- 2 — PROBLEM -->
+<section class="band band--grey">
+  <div class="wrap">
+    <div class="rule"></div>
+    <h2 class="display">Sie kaufen jeden Tag ein.<br>Nur verhandelt niemand für Sie.</h2>
+    <ul class="pain">
+      <li><b>01</b><p>Energie, Versicherungen, Material – alles wird teurer. Ihre Preise können Sie nicht im gleichen Tempo erhöhen.</p></li>
+      <li><b>02</b><p>Für Vertragsvergleiche und Neuverhandlungen bleibt im Tagesgeschäft schlicht keine Zeit.</p></li>
+      <li><b>03</b><p>Mit 5, 20 oder 50 Mitarbeitern haben Sie beim Lieferanten kein Verhandlungsgewicht. Große Abnehmer schon.</p></li>
+      <li><b>04</b><p>Verträge laufen jahrelang unbemerkt weiter – oft zu Konditionen von vor fünf Jahren.</p></li>
+    </ul>
+    <p class="bridge">Genau dafür gibt es <em>123Vorteilswelt.</em></p>
+  </div>
+</section>
+
+<!-- 3 — ABLAUF -->
+<section class="band band--dark" id="ablauf">
+  <div class="wrap">
+    <p class="eyebrow on-dark">So funktioniert es</p>
+    <h2 class="display">Drei Schritte. Ein Ergebnis:<br>niedrigere Kosten.</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="step-n">1</span>
+        <h3 class="display">Analyse</h3>
+        <p>Wir sehen uns Ihre laufenden Kosten an – kostenlos, vertraulich und ohne jede Verpflichtung.</p>
+      </div>
+      <div class="step">
+        <span class="step-n">2</span>
+        <h3 class="display">Verhandlung</h3>
+        <p>Wir bündeln die Nachfrage vieler Betriebe und verhandeln für Sie – mit dem Gewicht eines Großkunden.</p>
+      </div>
+      <div class="step">
+        <span class="step-n">3</span>
+        <h3 class="display">Ersparnis</h3>
+        <p>Sie erhalten Ihre neuen Konditionen schwarz auf weiß. Im Schnitt 10 bis 15 Prozent weniger.</p>
+      </div>
+    </div>
+    <p class="steps-note"><b>Und jedes Jahr aufs Neue.</b> Wir prüfen jährlich nach und verhandeln nach, damit Ihre Konditionen nie veralten.</p>
+  </div>
+</section>
+
+<!-- 4 — BEREICHE -->
+<section class="band" id="bereiche">
+  <div class="wrap">
+    <div class="areas-head">
+      <div class="rule"></div>
+      <h2 class="display">Wo kaufen Sie ein?</h2>
+      <p class="lead">Wählen Sie die Bereiche aus, die wir für Sie prüfen sollen. Wir stellen daraus Ihren Prüfauftrag zusammen.</p>
+    </div>
+
+    <div class="tiles" id="tiles">
+      <button class="tile" type="button" aria-pressed="false" data-area="Strom &amp; Gas">Strom &amp; Gas<small>Tarife, Netz, Anbieterwechsel</small><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="tile" type="button" aria-pressed="false" data-area="Versicherungen">Versicherungen<small>Betrieb, Haftpflicht, KFZ</small><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="tile" type="button" aria-pressed="false" data-area="Fuhrpark &amp; Leasing">Fuhrpark &amp; Leasing<small>Firmenwagen, Nutzfahrzeuge</small><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="tile" type="button" aria-pressed="false" data-area="Treibstoff">Treibstoff<small>Tankkarten, Flottenrabatte</small><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="tile" type="button" aria-pressed="false" data-area="Material &amp; Rohstoffe">Material &amp; Rohstoffe<small>Einkaufskonditionen, Staffelpreise</small><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="tile" type="button" aria-pressed="false" data-area="Maschinen">Maschinen<small>Beschaffung, Wartung, Leasing</small><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="tile" type="button" aria-pressed="false" data-area="Büroausstattung">Büroausstattung<small>Möbel, IT, Verbrauchsmaterial</small><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="tile" type="button" aria-pressed="false" data-area="Telekommunikation">Telekommunikation<small>Mobilfunk, Internet, Telefonie</small><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="tile" type="button" aria-pressed="false" data-area="Werbung &amp; Marketing">Werbung &amp; Marketing<small>Agenturen, Druck, Online</small><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="tile" type="button" aria-pressed="false" data-area="Steuerberatung">Steuerberatung<small>Honorare, Leistungsumfang</small><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="tile" type="button" aria-pressed="false" data-area="Bankgebühren">Bankgebühren<small>Konten, Zahlungsverkehr, Terminals</small><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="tile" type="button" aria-pressed="false" data-area="Entsorgung">Entsorgung<small>Abfall, Recycling, Container</small><span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+    </div>
+
+    <div class="order">
+      <div class="order-list">
+        <div class="order-head"><strong>Ihr Prüfauftrag</strong><span>Entwurf</span></div>
+        <ul id="orderItems"></ul>
+        <p class="order-empty" id="orderEmpty">Noch nichts ausgewählt. Tippen Sie oben auf die Bereiche, in denen wir für Sie nachsehen sollen.</p>
+      </div>
+      <div class="order-act">
+        <div class="order-count"><span id="cnt">0</span><small id="cntLabel">Bereiche ausgewählt</small></div>
+        <button class="btn" id="orderBtn" type="button" disabled>Bereiche prüfen lassen</button>
+        <p class="btn-note" style="margin-top:0">Kostenlos und unverbindlich.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 — KOSTEN -->
+<section class="band band--green" id="kosten">
+  <div class="wrap">
+    <p class="eyebrow on-dark" style="color:rgba(255,255,255,.8)">Was es Sie kostet</p>
+    <h2 class="price-claim">Sparen Sie nichts,<br>zahlen Sie nichts.</h2>
+    <p style="max-width:62ch;font-size:1.1rem;color:rgba(255,255,255,.92)">Die Analyse ist kostenlos. Erst wenn wir für Sie tatsächlich günstigere Konditionen erzielt haben, erhalten wir 30 Prozent der erzielten Jahresersparnis. Der Rest bleibt bei Ihnen – und ab dem zweiten Jahr profitieren Sie weiter.</p>
+
+    <div class="calc">
+      <div>
+        <p class="lbl">Ihre Jahresersparnis</p>
+        <p class="val num">12.000 €</p>
+        <p class="hint">von uns verhandelt</p>
+      </div>
+      <div>
+        <p class="lbl">Unsere Vergütung (30 %)</p>
+        <p class="val num">3.600 €</p>
+        <p class="hint">nur bei Erfolg</p>
+      </div>
+      <div class="keep">
+        <p class="lbl">Bleibt in Ihrem Betrieb</p>
+        <p class="val num">8.400 €</p>
+        <p class="hint">jedes Jahr aufs Neue</p>
+      </div>
+    </div>
+    <p class="calc-note">Beispielrechnung zur Veranschaulichung. Ihre tatsächliche Ersparnis ermitteln wir in der kostenlosen Analyse.</p>
+  </div>
+</section>
+
+<!-- 6 — ANSPRECHPARTNER -->
+<section class="band">
+  <div class="wrap">
+    <div class="rule"></div>
+    <h2 class="display">Ihr Ansprechpartner<br>in der Region</h2>
+    <p class="lead">Sie arbeiten nicht mit einer Hotline, sondern mit einem Unternehmer aus Ihrer Nähe – der Ihre Region, Ihre Branche und Ihre Lieferanten kennt.</p>
+
+    <div class="partner">
+      <div class="pcard">
+        <div class="pavatar">Foto<br>Platzhalter</div>
+        <h3 class="display">[Name des Partners]</h3>
+        <p class="role">123Vorteilswelt [Region]</p>
+        <p>[Kurzer persönlicher Text: Herkunft, Berufserfahrung, warum er oder sie für Betriebe in der Region verhandelt. Zwei bis drei Sätze.]</p>
+      </div>
+
+      <div>
+        <ul class="assure">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3l8 3.5v5c0 4.5-3.2 8.6-8 10-4.8-1.4-8-5.5-8-10v-5z"/></svg>
+            <div><b>Ihre Zahlen bleiben vertraulich</b><p>Wir verwenden Ihre Unterlagen ausschließlich für die Analyse. Keine Weitergabe an Dritte, keine Nutzung darüber hinaus.</p></div>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>
+            <div><b>Keine Bindung, keine Kündigung nötig</b><p>Sie entscheiden bei jedem einzelnen Bereich selbst, ob Sie wechseln. Wir bereiten vor, Sie unterschreiben – oder eben nicht.</p></div>
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <div><b>Wenig Aufwand für Sie</b><p>Ein Gespräch, ein paar Unterlagen – den Rest übernehmen wir. Ihr Zeitaufwand liegt typischerweise unter zwei Stunden.</p></div>
+          </li>
+        </ul>
+
+        <div class="seal">
+          <div class="seal-badge">SILBER<br>Zertifiziert</div>
+          <p><b>SILBER-Zertifizierung des UnternehmerCircle-Verbandes.</b> Das Gütesiegel steht für unternehmerische Verantwortung, Weitblick und klare Werte im Umgang mit Kunden und Partnern.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 — FALLBEISPIELE -->
+<section class="band band--grey">
+  <div class="wrap">
+    <div class="rule"></div>
+    <h2 class="display">Was wir für andere<br>Betriebe herausgeholt haben</h2>
+    <div class="cases">
+      <div class="case">
+        <p class="meta">Platzhalter · Branche, Größe</p>
+        <p class="big num">0 €<small>Ersparnis pro Jahr</small></p>
+        <q>[Kundenstimme, ein bis zwei Sätze.]</q>
+      </div>
+      <div class="case">
+        <p class="meta">Platzhalter · Branche, Größe</p>
+        <p class="big num">0 €<small>Ersparnis pro Jahr</small></p>
+        <q>[Kundenstimme, ein bis zwei Sätze.]</q>
+      </div>
+      <div class="case">
+        <p class="meta">Platzhalter · Branche, Größe</p>
+        <p class="big num">0 €<small>Ersparnis pro Jahr</small></p>
+        <q>[Kundenstimme, ein bis zwei Sätze.]</q>
+      </div>
+    </div>
+    <p class="ph"><b>Hinweis für die Abstimmung:</b> Diese Sektion sollte erst online gehen, wenn echte Fälle vorliegen. Bis dahin lieber ganz weglassen als mit erfundenen Zahlen füllen – hier entscheidet sich die Glaubwürdigkeit der ganzen Seite.</p>
+  </div>
+</section>
+
+<!-- 8 — FAQ -->
+<section class="band" id="fragen">
+  <div class="wrap">
+    <div class="rule"></div>
+    <h2 class="display">Häufige Fragen</h2>
+    <div class="faq">
+      <details open>
+        <summary>Verdienen Sie an bestimmten Anbietern mit?</summary>
+        <p>[Antwort abstimmen – das ist die wichtigste Frage der ganzen Seite. Offensiv und eindeutig beantworten, sonst beantwortet sie sich der Besucher selbst und geht. Empfehlung: klarstellen, woher die Vergütung kommt und dass die Anbieterauswahl allein nach dem Ergebnis für den Kunden erfolgt.]</p>
+      </details>
+      <details>
+        <summary>Muss ich bestehende Verträge kündigen?</summary>
+        <p>Nein. Wir prüfen zuerst, welche Laufzeiten und Kündigungsfristen bestehen, und planen die Optimierung entlang dieser Termine. Häufig lassen sich Konditionen auch beim bestehenden Anbieter nachverhandeln – ganz ohne Wechsel.</p>
+      </details>
+      <details>
+        <summary>Welche Unterlagen brauchen Sie von mir?</summary>
+        <p>In der Regel die letzten Jahresabrechnungen und laufenden Verträge der Bereiche, die wir prüfen sollen. Was genau sinnvoll ist, klären wir im Erstgespräch – Sie müssen vorab nichts zusammensuchen.</p>
+      </details>
+      <details>
+        <summary>Was passiert, wenn Sie keine Ersparnis finden?</summary>
+        <p>Dann kostet Sie das nichts. Unsere Vergütung entsteht ausschließlich aus einer tatsächlich erzielten Ersparnis. Finden wir keine, haben Sie immerhin die Sicherheit, dass Ihre Konditionen bereits marktgerecht sind.</p>
+      </details>
+      <details>
+        <summary>Wie lange dauert die Analyse?</summary>
+        <p>[Zeitangabe abstimmen.] Ihr eigener Zeitaufwand beschränkt sich auf das Erstgespräch und die Übergabe der Unterlagen.</p>
+      </details>
+      <details>
+        <summary>Bin ich danach an etwas gebunden?</summary>
+        <p>Sie entscheiden bei jedem Bereich einzeln, ob Sie das verhandelte Ergebnis annehmen. Es gibt keine Mindestlaufzeit und keine Abnahmeverpflichtung.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 9 — ANFRAGE -->
+<section class="band band--dark" id="anfrage">
+  <div class="wrap">
+    <p class="eyebrow on-dark">Kostenlose Einkaufsanalyse</p>
+    <h2 class="display">Finden wir heraus,<br>wo Sie zu viel zahlen.</h2>
+
+    <div class="formwrap">
+      <ul class="reasons">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg><div><b>Kostenlos und unverbindlich</b><p>Die Analyse kostet Sie nichts – unabhängig vom Ergebnis.</p></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg><div><b>Antwort innerhalb von 24 Stunden</b><p>Ihr regionaler Ansprechpartner meldet sich persönlich bei Ihnen.</p></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg><div><b>Ergebnis schwarz auf weiß</b><p>Sie bekommen eine nachvollziehbare Aufstellung, keine Verkaufspräsentation.</p></div></li>
+      </ul>
+
+      <div class="formcard">
+        <!-- Stufe A: Formular -->
+        <div id="stageForm">
+          <h3 class="display stage-title">Ihre Anfrage</h3>
+          <p style="font-size:.9rem;color:var(--grey-500);margin-bottom:20px">Fünf Angaben genügen. Alles Weitere besprechen wir im Gespräch.</p>
+          <div class="chips" id="chips"><span class="chip chip--none">Noch keine Bereiche ausgewählt</span></div>
+          <div class="fields">
+            <div class="f-full"><label for="fFirma">Firma</label><input id="fFirma" type="text" placeholder="Musterbetrieb GmbH"></div>
+            <div class="f-full"><label for="fName">Ansprechpartner</label><input id="fName" type="text" placeholder="Vor- und Nachname"></div>
+            <div><label for="fPlz">PLZ</label><input id="fPlz" type="text" inputmode="numeric" placeholder="8041"></div>
+            <div><label for="fTel">Telefon</label><input id="fTel" type="tel" placeholder="0664 1234567"></div>
+            <div class="f-full"><label for="fMail">E-Mail</label><input id="fMail" type="email" placeholder="name@betrieb.at"></div>
+          </div>
+          <button class="btn" id="sendBtn" type="button">Analyse anfordern</button>
+          <p class="consent">Ihre Angaben werden ausschließlich zur Bearbeitung Ihrer Anfrage verwendet und an Ihren regionalen Ansprechpartner weitergeleitet. [Datenschutzhinweis final abstimmen.]</p>
+        </div>
+
+        <!-- Stufe B: Termin -->
+        <div id="stageSlot" class="hidden">
+          <h3 class="display stage-title">Wann passt es Ihnen?</h3>
+          <p style="font-size:.9rem;color:var(--grey-500)">Wählen Sie einen Termin für das kostenlose Erstgespräch – telefonisch oder bei Ihnen im Betrieb, rund 30 Minuten.</p>
+          <div class="slotgrid" id="slots">
+            <button class="slot" type="button" aria-pressed="false">Dienstag, 9:00<small>Telefonisch</small></button>
+            <button class="slot" type="button" aria-pressed="false">Dienstag, 14:30<small>Telefonisch</small></button>
+            <button class="slot" type="button" aria-pressed="false">Mittwoch, 8:30<small>Vor Ort im Betrieb</small></button>
+            <button class="slot" type="button" aria-pressed="false">Donnerstag, 16:00<small>Telefonisch</small></button>
+          </div>
+          <button class="btn" id="slotBtn" type="button" disabled>Termin bestätigen</button>
+          <p class="consent">Lieber später entscheiden? Ihr Ansprechpartner meldet sich ohnehin innerhalb von 24 Stunden.</p>
+        </div>
+
+        <!-- Stufe C: Bestätigung -->
+        <div id="stageDone" class="hidden">
+          <div class="done">
+            <div class="done-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div>
+            <h3 class="display" style="margin-bottom:10px">Anfrage eingegangen</h3>
+            <p style="color:var(--grey-700);font-size:.98rem;max-width:44ch;margin:0 auto 18px" id="doneTxt">Ihr Ansprechpartner meldet sich vor dem Termin noch einmal kurz bei Ihnen.</p>
+            <p style="font-size:.84rem;color:var(--grey-500)">Prototyp – es wurden keine Daten übertragen.</p>
+            <button class="btn btn--sm" id="resetBtn" type="button" style="margin-top:20px;width:auto">Ablauf noch einmal durchspielen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 — FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <h4>123Vorteilswelt</h4>
+        <p style="max-width:34ch">Die Einkaufsabteilung für Klein- und Mittelbetriebe. Preise für Profis – österreichweit, regional betreut.</p>
+        <div class="franchise-link">
+          <b>Sie möchten selbst Partner werden?</b><br>
+          Informationen zum Franchise-System finden Sie <a href="#">hier</a>.
+        </div>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <p>123Vorteilswelt GmbH<br>Ivica Osim Platz 2/5<br>A-8041 Graz</p>
+        <a href="mailto:office@123vorteilswelt.at">office@123vorteilswelt.at</a>
+      </div>
+      <div>
+        <h4>Rechtliches</h4>
+        <a href="#">Impressum</a>
+        <a href="#">Datenschutz</a>
+        <a href="#">AGB</a>
+      </div>
+    </div>
+    <p class="fbottom">Prototyp zur internen Abstimmung · Stand Juli 2026 · Inhalte, Bilder und Zahlen sind teilweise Platzhalter</p>
+  </div>
+</footer>
+
+<div class="sticky"><a class="btn" href="#bereiche">Kostenlose Analyse anfordern</a></div>
+
+<script>
+(function(){
+  var selected = [];
+  var tiles = document.querySelectorAll('.tile');
+  var items = document.getElementById('orderItems');
+  var empty = document.getElementById('orderEmpty');
+  var cnt = document.getElementById('cnt');
+  var cntLabel = document.getElementById('cntLabel');
+  var orderBtn = document.getElementById('orderBtn');
+  var chips = document.getElementById('chips');
+
+  function decode(s){ var t = document.createElement('textarea'); t.innerHTML = s; return t.value; }
+
+  function render(){
+    items.innerHTML = '';
+    selected.forEach(function(a){
+      var li = document.createElement('li');
+      var k = document.createElement('span'); k.textContent = a;
+      var d = document.createElement('span'); d.className = 'dots';
+      var s = document.createElement('span'); s.className = 'st'; s.textContent = 'wird geprüft';
+      li.appendChild(k); li.appendChild(d); li.appendChild(s);
+      items.appendChild(li);
+    });
+    empty.style.display = selected.length ? 'none' : 'block';
+    cnt.textContent = selected.length;
+    cntLabel.textContent = selected.length === 1 ? 'Bereich ausgewählt' : 'Bereiche ausgewählt';
+    orderBtn.disabled = selected.length === 0;
+    orderBtn.textContent = selected.length
+      ? 'Diese ' + selected.length + (selected.length === 1 ? ' Bereich' : ' Bereiche') + ' prüfen lassen'
+      : 'Bereiche prüfen lassen';
+
+    chips.innerHTML = '';
+    if(!selected.length){
+      var c = document.createElement('span');
+      c.className = 'chip chip--none';
+      c.textContent = 'Noch keine Bereiche ausgewählt';
+      chips.appendChild(c);
+    } else {
+      selected.forEach(function(a){
+        var c = document.createElement('span');
+        c.className = 'chip';
+        c.textContent = a;
+        chips.appendChild(c);
+      });
+    }
+  }
+
+  tiles.forEach(function(t){
+    t.addEventListener('click', function(){
+      var area = decode(t.getAttribute('data-area'));
+      var on = t.getAttribute('aria-pressed') === 'true';
+      t.setAttribute('aria-pressed', on ? 'false' : 'true');
+      if(on){ selected = selected.filter(function(x){ return x !== area; }); }
+      else { selected.push(area); }
+      render();
+    });
+  });
+
+  orderBtn.addEventListener('click', function(){
+    document.getElementById('anfrage').scrollIntoView({behavior:'smooth'});
+    setTimeout(function(){ document.getElementById('fFirma').focus({preventScroll:true}); }, 700);
+  });
+
+  // Formular → Termin → Bestätigung
+  var stageForm = document.getElementById('stageForm');
+  var stageSlot = document.getElementById('stageSlot');
+  var stageDone = document.getElementById('stageDone');
+  var slotBtn = document.getElementById('slotBtn');
+  var chosenSlot = null;
+
+  document.getElementById('sendBtn').addEventListener('click', function(){
+    stageForm.classList.add('hidden');
+    stageSlot.classList.remove('hidden');
+    stageSlot.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+
+  document.querySelectorAll('#slots .slot').forEach(function(s){
+    s.addEventListener('click', function(){
+      document.querySelectorAll('#slots .slot').forEach(function(o){ o.setAttribute('aria-pressed','false'); });
+      s.setAttribute('aria-pressed','true');
+      chosenSlot = s.firstChild.textContent.trim();
+      slotBtn.disabled = false;
+    });
+  });
+
+  slotBtn.addEventListener('click', function(){
+    stageSlot.classList.add('hidden');
+    stageDone.classList.remove('hidden');
+    document.getElementById('doneTxt').textContent =
+      'Ihr Termin am ' + chosenSlot + ' ist vorgemerkt. Ihr Ansprechpartner meldet sich vorher noch einmal kurz bei Ihnen.';
+    stageDone.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', function(){
+    stageDone.classList.add('hidden');
+    stageForm.classList.remove('hidden');
+    slotBtn.disabled = true;
+    chosenSlot = null;
+    document.querySelectorAll('#slots .slot').forEach(function(o){ o.setAttribute('aria-pressed','false'); });
+    document.getElementById('bereiche').scrollIntoView({behavior:'smooth'});
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
