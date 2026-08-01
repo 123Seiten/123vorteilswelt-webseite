@@ -1,0 +1,59 @@
+---
+---
+<section class="band band--dark" id="anfrage">
+  <div class="wrap">
+    <p class="eyebrow on-dark">Kostenlose Einkaufsanalyse</p>
+    <h2 class="display">Finden wir heraus,<br>wo Sie zu viel zahlen.</h2>
+
+    <div class="formwrap">
+      <ul class="reasons">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg><div><b>Kostenlos und unverbindlich</b><p>Die Analyse kostet Sie nichts – unabhängig vom Ergebnis.</p></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg><div><b>Antwort innerhalb von 24 Stunden</b><p>Ihr regionaler Ansprechpartner meldet sich persönlich bei Ihnen.</p></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg><div><b>Ergebnis schwarz auf weiß</b><p>Sie bekommen eine nachvollziehbare Aufstellung, keine Verkaufspräsentation.</p></div></li>
+      </ul>
+
+      <div class="formcard">
+        <!-- Stufe A: Formular -->
+        <div id="stageForm">
+          <h3 class="display stage-title">Ihre Anfrage</h3>
+          <p style="font-size:.9rem;color:var(--grey-500);margin-bottom:20px">Fünf Angaben genügen. Alles Weitere besprechen wir im Gespräch.</p>
+          <div class="chips" id="chips"><span class="chip chip--none">Noch keine Bereiche ausgewählt</span></div>
+          <div class="fields">
+            <div class="f-full"><label for="fFirma">Firma</label><input id="fFirma" type="text" placeholder="Musterbetrieb GmbH"></div>
+            <div class="f-full"><label for="fName">Ansprechpartner</label><input id="fName" type="text" placeholder="Vor- und Nachname"></div>
+            <div><label for="fPlz">PLZ</label><input id="fPlz" type="text" inputmode="numeric" placeholder="8041"></div>
+            <div><label for="fTel">Telefon</label><input id="fTel" type="tel" placeholder="0664 1234567"></div>
+            <div class="f-full"><label for="fMail">E-Mail</label><input id="fMail" type="email" placeholder="name@betrieb.at"></div>
+          </div>
+          <button class="btn" id="sendBtn" type="button">Analyse anfordern</button>
+          <p class="consent">Ihre Angaben werden ausschließlich zur Bearbeitung Ihrer Anfrage verwendet und an Ihren regionalen Ansprechpartner weitergeleitet. [Datenschutzhinweis final abstimmen.]</p>
+        </div>
+
+        <!-- Stufe B: Termin -->
+        <div id="stageSlot" class="hidden">
+          <h3 class="display stage-title">Wann passt es Ihnen?</h3>
+          <p style="font-size:.9rem;color:var(--grey-500)">Wählen Sie einen Termin für das kostenlose Erstgespräch – telefonisch oder bei Ihnen im Betrieb, rund 30 Minuten.</p>
+          <div class="slotgrid" id="slots">
+            <button class="slot" type="button" aria-pressed="false">Dienstag, 9:00<small>Telefonisch</small></button>
+            <button class="slot" type="button" aria-pressed="false">Dienstag, 14:30<small>Telefonisch</small></button>
+            <button class="slot" type="button" aria-pressed="false">Mittwoch, 8:30<small>Vor Ort im Betrieb</small></button>
+            <button class="slot" type="button" aria-pressed="false">Donnerstag, 16:00<small>Telefonisch</small></button>
+          </div>
+          <button class="btn" id="slotBtn" type="button" disabled>Termin bestätigen</button>
+          <p class="consent">Lieber später entscheiden? Ihr Ansprechpartner meldet sich ohnehin innerhalb von 24 Stunden.</p>
+        </div>
+
+        <!-- Stufe C: Bestätigung -->
+        <div id="stageDone" class="hidden">
+          <div class="done">
+            <div class="done-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div>
+            <h3 class="display" style="margin-bottom:10px">Anfrage eingegangen</h3>
+            <p style="color:var(--grey-700);font-size:.98rem;max-width:44ch;margin:0 auto 18px" id="doneTxt">Ihr Ansprechpartner meldet sich vor dem Termin noch einmal kurz bei Ihnen.</p>
+            <p style="font-size:.84rem;color:var(--grey-500)">Prototyp – es wurden keine Daten übertragen.</p>
+            <button class="btn btn--sm" id="resetBtn" type="button" style="margin-top:20px;width:auto">Ablauf noch einmal durchspielen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
