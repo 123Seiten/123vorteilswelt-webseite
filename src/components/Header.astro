@@ -1,29 +1,34 @@
 ---
+interface Props {
+  hideCta?: boolean;
+}
+
+const { hideCta = false } = Astro.props;
 ---
 <header>
   <div class="wrap bar">
-    <a class="logo" href="#top">
+    <a class="logo" href="/">
       <img src="/logo.png" alt="123Vorteilswelt.at – Preise für Profis" class="logo-img">
     </a>
     <nav class="nav">
-      <a href="#ablauf">Ablauf</a>
-      <a href="#bereiche">Bereiche</a>
-      <a href="#kosten">Kosten</a>
-      <a href="#fragen">Fragen</a>
+      <a href="/#ablauf">Ablauf</a>
+      <a href="/#bereiche">Bereiche</a>
+      <a href="/#kosten">Kosten</a>
+      <a href="/#fragen">Fragen</a>
     </nav>
     <div class="header-actions">
-      <a class="btn btn--sm header-cta" href="#anfrage">Analyse anfordern</a>
+      {!hideCta && <a class="btn btn--sm header-cta" href="/#anfrage">Analyse anfordern</a>}
       <button class="nav-toggle" type="button" id="navToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Menü öffnen">
         <span class="nav-toggle-bars" aria-hidden="true"></span>
       </button>
     </div>
   </div>
   <nav class="mobile-nav" id="mobileNav" aria-label="Mobile Navigation">
-    <a href="#ablauf">Ablauf</a>
-    <a href="#bereiche">Bereiche</a>
-    <a href="#kosten">Kosten</a>
-    <a href="#fragen">Fragen</a>
-    <a href="#anfrage" class="mobile-nav-cta">Analyse anfordern</a>
+    <a href="/#ablauf">Ablauf</a>
+    <a href="/#bereiche">Bereiche</a>
+    <a href="/#kosten">Kosten</a>
+    <a href="/#fragen">Fragen</a>
+    {!hideCta && <a href="/#anfrage" class="mobile-nav-cta">Analyse anfordern</a>}
   </nav>
 </header>
 

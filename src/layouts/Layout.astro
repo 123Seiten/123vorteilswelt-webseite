@@ -5,9 +5,10 @@ import '../styles/global.css';
 
 interface Props {
   title?: string;
+  hideCta?: boolean;
 }
 
-const { title = '123Vorteilswelt – Prototyp Kundenwebseite' } = Astro.props;
+const { title = '123Vorteilswelt – Prototyp Kundenwebseite', hideCta = false } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -24,13 +25,13 @@ const { title = '123Vorteilswelt – Prototyp Kundenwebseite' } = Astro.props;
 
 <div class="proto"><b>Prototyp</b> · Entwurf zur Abstimmung · Bilder, Logo und Fallbeispiele sind Platzhalter · Es werden keine Daten übertragen</div>
 
-<Header />
+<Header hideCta={hideCta} />
 
 <slot />
 
 <Footer />
 
-<div class="sticky"><a class="btn" href="#bereiche">Kostenlose Analyse anfordern</a></div>
+{!hideCta && <div class="sticky"><a class="btn" href="/#bereiche">Kostenlose Analyse anfordern</a></div>}
 
 </body>
 </html>

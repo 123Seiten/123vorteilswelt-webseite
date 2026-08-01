@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-label="Bildplatzhalter, Querformat 16:9">
+  <defs>
+    <pattern id="hatch" width="30" height="30" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <rect width="30" height="30" fill="#1c1f21"/>
+      <line x1="0" y1="0" x2="0" y2="30" stroke="#26292c" stroke-width="15"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#hatch)"/>
+  <rect x="10" y="10" width="1580" height="880" fill="none" stroke="#3a3f43" stroke-width="3" stroke-dasharray="12 9"/>
+  <text x="800" y="420" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="34" fill="#d3d7da">Bildplatzhalter</text>
+  <text x="800" y="468" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="21" fill="#9aa0a6">Handschlag oder Beratungsgespräch, Franchise-Partner mit Interessent:in</text>
+  <text x="800" y="500" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#71777d">1600 × 900 px · Querformat 16:9</text>
+</svg>

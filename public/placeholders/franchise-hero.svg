@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Bildplatzhalter, Hochformat 4:5">
+  <defs>
+    <pattern id="hatch" width="28" height="28" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <rect width="28" height="28" fill="#f3f4f5"/>
+      <line x1="0" y1="0" x2="0" y2="28" stroke="#e9ebed" stroke-width="14"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="1000" fill="url(#hatch)"/>
+  <rect x="10" y="10" width="780" height="980" fill="none" stroke="#d6d9dc" stroke-width="3" stroke-dasharray="12 9"/>
+  <text x="400" y="470" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" fill="#4a4f54">Bildplatzhalter</text>
+  <text x="400" y="512" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" fill="#71777d">Franchise-Partnerin/-Partner im Gespräch</text>
+  <text x="400" y="542" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#9aa0a6">800 × 1000 px · Hochformat 4:5</text>
+</svg>
