@@ -3,6 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import TileSelect from '../components/TileSelect.astro';
 import FranchiseBewerbung from '../components/FranchiseBewerbung.astro';
 
+const base = import.meta.env.BASE_URL;
+
 const regionen = [
   'Burgenland',
   'Kärnten',
@@ -19,9 +21,9 @@ const regionen = [
 <Layout
   title="Franchise-Partner werden – 123Vorteilswelt"
   ctaLabel="Anfrage starten"
-  ctaHref="/#bewerbung"
+  ctaHref={`${base}#bewerbung`}
   stickyCtaLabel="Anfrage starten"
-  stickyCtaHref="/#bewerbung"
+  stickyCtaHref={`${base}#bewerbung`}
 >
 
   <!-- HERO — Die Idee -->
@@ -50,7 +52,7 @@ const regionen = [
 
       <div class="photo">
         <img
-          src="/placeholders/franchise-hero.svg"
+          src={`${base}placeholders/franchise-hero.svg`}
           alt="Platzhalter: Franchise-Partnerin oder -Partner im Gespräch mit einer Unternehmerin, Notebook und Unterlagen auf dem Tisch"
           width="800" height="1000"
         >
@@ -113,7 +115,7 @@ const regionen = [
         </p>
         <div class="photo">
           <img
-            src="/placeholders/franchise-team.svg"
+            src={`${base}placeholders/franchise-team.svg`}
             alt="Platzhalter: 123Vorteilswelt-Team oder Franchise-Partner:in vor Ort, mit Roll-up-Banner oder Beschilderung im Hintergrund"
             width="1200" height="800"
           >

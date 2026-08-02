@@ -12,13 +12,14 @@ interface Props {
   stickyCtaHref?: string;
 }
 
+const base = import.meta.env.BASE_URL;
 const {
   title = '123Vorteilswelt – Prototyp Kundenwebseite',
   hideCta = false,
   ctaLabel = 'Analyse anfordern',
-  ctaHref = '/#anfrage',
+  ctaHref = `${base}#anfrage`,
   stickyCtaLabel = 'Kostenlose Analyse anfordern',
-  stickyCtaHref = '/#bereiche',
+  stickyCtaHref = `${base}#bereiche`,
 } = Astro.props;
 ---
 
