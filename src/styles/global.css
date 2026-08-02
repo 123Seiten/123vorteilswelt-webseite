@@ -324,7 +324,7 @@ details p{padding:0 0 22px;color:var(--grey-700);font-size:.97rem;max-width:70ch
 /* ---------- Formular ---------- */
 .formwrap{display:grid;gap:38px;margin-top:38px}
 @media(min-width:900px){.formwrap{grid-template-columns:.85fr 1.15fr;gap:52px}}
-.formcard{background:var(--white);padding:30px 28px 32px;border:1px solid var(--grey-300)}
+.formcard{background:var(--white);padding:30px 28px 32px;border:1px solid var(--grey-300);border-radius:10px}
 .chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px}
 .chip{background:var(--green-tint);border:1px solid var(--green);color:var(--green-dark);font-size:.79rem;font-weight:600;padding:6px 12px;border-radius:100px}
 .chip--none{background:var(--grey-100);border-color:var(--grey-300);color:var(--grey-500);font-weight:500}
@@ -339,7 +339,7 @@ input{
 input:focus{outline:0;border-color:var(--green);box-shadow:0 0 0 3px var(--green-tint)}
 .consent{font-size:.8rem;color:var(--grey-500);margin-top:18px;max-width:60ch}
 .formcard .btn{margin-top:22px;width:100%}
-.reasons{display:grid;gap:18px}
+.reasons{display:grid;gap:50px}
 .reasons li{list-style:none;display:flex;gap:13px;align-items:flex-start}
 .reasons svg{width:20px;height:20px;color:var(--green);flex:0 0 auto;margin-top:3px}
 .reasons b{display:block;font-size:.98rem}
