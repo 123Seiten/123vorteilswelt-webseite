@@ -1,9 +1,11 @@
 ---
 interface Props {
   hideCta?: boolean;
+  ctaLabel?: string;
+  ctaHref?: string;
 }
 
-const { hideCta = false } = Astro.props;
+const { hideCta = false, ctaLabel = 'Analyse anfordern', ctaHref = '/#anfrage' } = Astro.props;
 ---
 <header>
   <div class="wrap bar">
@@ -17,7 +19,7 @@ const { hideCta = false } = Astro.props;
       <a href="/#fragen">Fragen</a>
     </nav>
     <div class="header-actions">
-      {!hideCta && <a class="btn btn--sm header-cta" href="/#anfrage">Analyse anfordern</a>}
+      {!hideCta && <a class="btn btn--sm header-cta" href={ctaHref}>{ctaLabel}</a>}
       <button class="nav-toggle" type="button" id="navToggle" aria-expanded="false" aria-controls="mobileNav" aria-label="Menü öffnen">
         <span class="nav-toggle-bars" aria-hidden="true"></span>
       </button>
@@ -28,7 +30,7 @@ const { hideCta = false } = Astro.props;
     <a href="/#bereiche">Bereiche</a>
     <a href="/#kosten">Kosten</a>
     <a href="/#fragen">Fragen</a>
-    {!hideCta && <a href="/#anfrage" class="mobile-nav-cta">Analyse anfordern</a>}
+    {!hideCta && <a href={ctaHref} class="mobile-nav-cta">{ctaLabel}</a>}
   </nav>
 </header>
 

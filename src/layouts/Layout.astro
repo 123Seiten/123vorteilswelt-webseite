@@ -6,9 +6,20 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   hideCta?: boolean;
+  ctaLabel?: string;
+  ctaHref?: string;
+  stickyCtaLabel?: string;
+  stickyCtaHref?: string;
 }
 
-const { title = '123Vorteilswelt – Prototyp Kundenwebseite', hideCta = false } = Astro.props;
+const {
+  title = '123Vorteilswelt – Prototyp Kundenwebseite',
+  hideCta = false,
+  ctaLabel = 'Analyse anfordern',
+  ctaHref = '/#anfrage',
+  stickyCtaLabel = 'Kostenlose Analyse anfordern',
+  stickyCtaHref = '/#bereiche',
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -25,13 +36,13 @@ const { title = '123Vorteilswelt – Prototyp Kundenwebseite', hideCta = false }
 
 <div class="proto"><b>Prototyp</b> · Entwurf zur Abstimmung · Bilder, Logo und Fallbeispiele sind Platzhalter · Es werden keine Daten übertragen</div>
 
-<Header hideCta={hideCta} />
+<Header hideCta={hideCta} ctaLabel={ctaLabel} ctaHref={ctaHref} />
 
 <slot />
 
 <Footer />
 
-{!hideCta && <div class="sticky"><a class="btn" href="/#bereiche">Kostenlose Analyse anfordern</a></div>}
+{!hideCta && <div class="sticky"><a class="btn" href={stickyCtaHref}>{stickyCtaLabel}</a></div>}
 
 </body>
 </html>

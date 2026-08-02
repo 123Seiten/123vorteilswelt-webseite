@@ -1,0 +1,126 @@
+---
+---
+<section class="band band--dark" id="bewerbung">
+  <div class="wrap">
+    <p class="eyebrow on-dark">Mach den ersten Schritt</p>
+    <h2 class="display">Bewirb dich jetzt als Franchisenehmer</h2>
+
+    <div class="formwrap">
+      <ul class="reasons">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg><div><b>Unverbindlich</b><p>Die Bewerbung ist ein erstes Kennenlernen, keine Verpflichtung.</p></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg><div><b>Persönliche Rückmeldung</b><p>Wir melden uns direkt bei dir, keine automatisierte Antwort.</p></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg><div><b>Deine Region im Blick</b><p>Wir klären gleich mit, welches Bundesland für dich noch frei ist.</p></div></li>
+      </ul>
+
+      <div class="formcard">
+        <!-- Stufe A: Formular -->
+        <div id="bfStageForm">
+          <h3 class="display stage-title">Deine Bewerbung</h3>
+          <p style="font-size:.9rem;color:var(--grey-500);margin-bottom:20px">Ein paar Angaben genügen. Alles Weitere besprechen wir im Gespräch.</p>
+          <div class="chips" id="bewerbungChips"><span class="chip chip--none">Noch keine Regionen ausgewählt</span></div>
+          <div class="fields">
+            <div class="f-full"><label for="bfName">Name</label><input id="bfName" type="text" placeholder="Vor- und Nachname"></div>
+            <div><label for="bfMail">E-Mail</label><input id="bfMail" type="email" placeholder="du@beispiel.at"></div>
+            <div><label for="bfTel">Telefon</label><input id="bfTel" type="tel" placeholder="0664 1234567"></div>
+            <div><label for="bfPlz">PLZ</label><input id="bfPlz" type="text" inputmode="numeric" placeholder="8041"></div>
+            <div><label for="bfFirma">Firma <span class="optional-tag">(optional)</span></label><input id="bfFirma" type="text" placeholder="Falls vorhanden"></div>
+            <div class="f-full">
+              <label>Ich bin:</label>
+              <div class="slotgrid" id="bfTypeGroup">
+                <button class="slot" type="button" data-value="bestehender Betrieb" aria-pressed="false">Bestehender Betrieb</button>
+                <button class="slot" type="button" data-value="Quereinsteiger" aria-pressed="false">Quereinsteiger:in</button>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" id="bfKind" value="Franchise-Bewerbung">
+          <button class="btn" id="bfSendBtn" type="button">Bewerbung senden</button>
+          <p class="consent">Deine Angaben werden ausschließlich zur Bearbeitung deiner Bewerbung verwendet. [Datenschutzhinweis final abstimmen.]</p>
+        </div>
+
+        <!-- Stufe B: Termin -->
+        <div id="bfStageSlot" class="hidden">
+          <h3 class="display stage-title">Wann passt es dir?</h3>
+          <p style="font-size:.9rem;color:var(--grey-500)">Wähle einen Termin für ein kurzes Kennenlerngespräch – telefonisch oder bei dir vor Ort, rund 30 Minuten.</p>
+          <div class="slotgrid" id="bfSlots">
+            <button class="slot" type="button" aria-pressed="false">Dienstag, 9:00<small>Telefonisch</small></button>
+            <button class="slot" type="button" aria-pressed="false">Dienstag, 14:30<small>Telefonisch</small></button>
+            <button class="slot" type="button" aria-pressed="false">Mittwoch, 8:30<small>Vor Ort im Betrieb</small></button>
+            <button class="slot" type="button" aria-pressed="false">Donnerstag, 16:00<small>Telefonisch</small></button>
+          </div>
+          <button class="btn" id="bfSlotBtn" type="button" disabled>Termin bestätigen</button>
+          <p class="consent">Lieber später entscheiden? Wir melden uns ohnehin innerhalb von 48 Stunden bei dir.</p>
+        </div>
+
+        <!-- Stufe C: Bestätigung -->
+        <div id="bfStageDone" class="hidden">
+          <div class="done">
+            <div class="done-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div>
+            <h3 class="display" style="margin-bottom:10px">Bewerbung eingegangen</h3>
+            <p style="color:var(--grey-700);font-size:.98rem;max-width:44ch;margin:0 auto 18px" id="bfDoneTxt">Danke für deine Bewerbung, wir melden uns persönlich bei dir.</p>
+            <p style="font-size:.84rem;color:var(--grey-500)">Prototyp – es wurden keine Daten übertragen.</p>
+            <button class="btn btn--sm" id="bfResetBtn" type="button" style="margin-top:20px;width:auto">Ablauf noch einmal durchspielen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var stageForm = document.getElementById('bfStageForm')!;
+    var stageSlot = document.getElementById('bfStageSlot')!;
+    var stageDone = document.getElementById('bfStageDone')!;
+    var slotBtn = document.getElementById('bfSlotBtn') as HTMLButtonElement;
+    var sendBtn = document.getElementById('bfSendBtn')!;
+    var resetBtn = document.getElementById('bfResetBtn')!;
+    var doneTxt = document.getElementById('bfDoneTxt')!;
+    var chosenSlot: string | null = null;
+
+    document.querySelectorAll<HTMLButtonElement>('#bfTypeGroup .slot').forEach(function (b) {
+      b.addEventListener('click', function () {
+        document.querySelectorAll('#bfTypeGroup .slot').forEach(function (o) {
+          o.setAttribute('aria-pressed', 'false');
+        });
+        b.setAttribute('aria-pressed', 'true');
+      });
+    });
+
+    sendBtn.addEventListener('click', function () {
+      stageForm.classList.add('hidden');
+      stageSlot.classList.remove('hidden');
+      stageSlot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('#bfSlots .slot').forEach(function (s) {
+      s.addEventListener('click', function () {
+        document.querySelectorAll('#bfSlots .slot').forEach(function (o) {
+          o.setAttribute('aria-pressed', 'false');
+        });
+        s.setAttribute('aria-pressed', 'true');
+        chosenSlot = s.firstChild!.textContent!.trim();
+        slotBtn.disabled = false;
+      });
+    });
+
+    slotBtn.addEventListener('click', function () {
+      stageSlot.classList.add('hidden');
+      stageDone.classList.remove('hidden');
+      doneTxt.textContent =
+        'Danke für deine Bewerbung! Dein Termin am ' + chosenSlot + ' ist vorgemerkt – wir melden uns persönlich bei dir.';
+      stageDone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    resetBtn.addEventListener('click', function () {
+      stageDone.classList.add('hidden');
+      stageForm.classList.remove('hidden');
+      slotBtn.disabled = true;
+      chosenSlot = null;
+      document.querySelectorAll('#bfSlots .slot').forEach(function (o) {
+        o.setAttribute('aria-pressed', 'false');
+      });
+      var regionen = document.getElementById('regionen');
+      if (regionen) regionen.scrollIntoView({ behavior: 'smooth' });
+    });
+  })();
+</script>

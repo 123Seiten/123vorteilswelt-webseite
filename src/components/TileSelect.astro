@@ -1,0 +1,217 @@
+---
+interface Item {
+  value: string;
+  label: string;
+  hint?: string;
+}
+
+interface Props {
+  /** Eindeutiger Instanz-Schlüssel, z. B. "bereiche" oder "regionen" — verhindert ID-Kollisionen zwischen mehreren Instanzen. */
+  id: string;
+  /** ID der umschließenden <section> für Anchor-Links. Default: id. */
+  sectionId?: string;
+  /** Zusätzliche Modifier-Klasse für die <section>, z. B. "band--grey". */
+  band?: string;
+  eyebrow?: string;
+  heading: string;
+  lead: string;
+  /** Kurzer Hinweistext unter dem Lead-Absatz, z. B. "Diese Anfrage ist noch nicht verbindlich." */
+  note?: string;
+  items: Item[];
+  /** Zusätzliche Modifier-Klasse für das Kachel-Grid, z. B. "tiles--3col". */
+  tilesModifier?: string;
+  orderTitle: string;
+  orderTag?: string;
+  emptyText: string;
+  unitSingular: string;
+  unitPlural: string;
+  /** Status-Text pro Zeile in der Sammel-Liste, z. B. "wird geprüft" oder "ausgewählt". */
+  itemStatusText?: string;
+  idleButtonText: string;
+  /** Button-Text bei Auswahl. Platzhalter {n} und {unit} werden ersetzt. */
+  activeButtonTemplate: string;
+  helperText?: string;
+  /** ID der Sektion, zu der beim Klick gescrollt wird (i. d. R. das Formular). */
+  targetSectionId: string;
+  /** ID des Feldes, das nach dem Scrollen fokussiert wird. */
+  targetFocusId?: string;
+  /** ID des Chips-Containers (im Formular), der mit der Auswahl befüllt wird. */
+  targetChipsId?: string;
+}
+
+const {
+  id,
+  sectionId = id,
+  band,
+  eyebrow,
+  heading,
+  lead,
+  note,
+  items,
+  tilesModifier,
+  orderTitle,
+  orderTag = 'Entwurf',
+  emptyText,
+  unitSingular,
+  unitPlural,
+  itemStatusText = 'ausgewählt',
+  idleButtonText,
+  activeButtonTemplate,
+  helperText,
+  targetSectionId,
+  targetFocusId,
+  targetChipsId,
+} = Astro.props;
+
+const tilesId = `tiles-${id}`;
+const orderItemsId = `orderItems-${id}`;
+const orderEmptyId = `orderEmpty-${id}`;
+const cntId = `cnt-${id}`;
+const cntLabelId = `cntLabel-${id}`;
+const orderBtnId = `orderBtn-${id}`;
+---
+<section class:list={['band', band]} id={sectionId}>
+  <div class="wrap">
+    <div class="areas-head">
+      <div class="rule"></div>
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h2 class="display">{heading}</h2>
+      <p class="lead">{lead}</p>
+      {note && <p class="btn-note">{note}</p>}
+    </div>
+
+    <div class:list={['tiles', tilesModifier]} id={tilesId}>
+      {items.map((item) => (
+        <button class="tile" type="button" aria-pressed="false" data-area={item.label}>
+          {item.label}
+          {item.hint && <small>{item.hint}</small>}
+          <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span>
+        </button>
+      ))}
+    </div>
+
+    <div class="order">
+      <div class="order-list">
+        <div class="order-head"><strong>{orderTitle}</strong><span>{orderTag}</span></div>
+        <ul class="order-items" id={orderItemsId}></ul>
+        <p class="order-empty" id={orderEmptyId}>{emptyText}</p>
+      </div>
+      <div class="order-act">
+        <div class="order-count"><span id={cntId}>0</span><small id={cntLabelId}>{unitPlural} ausgewählt</small></div>
+        <button class="btn" id={orderBtnId} type="button" disabled>{idleButtonText}</button>
+        {helperText && <p class="btn-note" style="margin-top:0">{helperText}</p>}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{
+  tilesId,
+  orderItemsId,
+  orderEmptyId,
+  cntId,
+  cntLabelId,
+  orderBtnId,
+  unitSingular,
+  unitPlural,
+  itemStatusText,
+  idleButtonText,
+  activeButtonTemplate,
+  targetSectionId,
+  targetFocusId: targetFocusId ?? null,
+  targetChipsId: targetChipsId ?? null,
+}}>
+  (function () {
+    var selected = [];
+    var tilesRoot = document.getElementById(tilesId);
+    var tiles = tilesRoot ? tilesRoot.querySelectorAll('.tile') : [];
+    var items = document.getElementById(orderItemsId);
+    var empty = document.getElementById(orderEmptyId);
+    var cnt = document.getElementById(cntId);
+    var cntLabel = document.getElementById(cntLabelId);
+    var orderBtn = document.getElementById(orderBtnId);
+    if (!tilesRoot || !items || !empty || !cnt || !cntLabel || !orderBtn) return;
+
+    function decode(s) {
+      var t = document.createElement('textarea');
+      t.innerHTML = s;
+      return t.value;
+    }
+
+    function render() {
+      items.innerHTML = '';
+      selected.forEach(function (a) {
+        var li = document.createElement('li');
+        var k = document.createElement('span');
+        k.textContent = a;
+        var d = document.createElement('span');
+        d.className = 'dots';
+        var s = document.createElement('span');
+        s.className = 'st';
+        s.textContent = itemStatusText;
+        li.appendChild(k);
+        li.appendChild(d);
+        li.appendChild(s);
+        items.appendChild(li);
+      });
+      empty.style.display = selected.length ? 'none' : 'block';
+      cnt.textContent = String(selected.length);
+      cntLabel.textContent = (selected.length === 1 ? unitSingular : unitPlural) + ' ausgewählt';
+      orderBtn.disabled = selected.length === 0;
+      orderBtn.textContent = selected.length
+        ? activeButtonTemplate
+            .replace('{n}', String(selected.length))
+            .replace('{unit}', selected.length === 1 ? unitSingular : unitPlural)
+        : idleButtonText;
+
+      if (targetChipsId) {
+        var chips = document.getElementById(targetChipsId);
+        if (chips) {
+          chips.innerHTML = '';
+          if (!selected.length) {
+            var c = document.createElement('span');
+            c.className = 'chip chip--none';
+            c.textContent = 'Noch keine ' + unitPlural + ' ausgewählt';
+            chips.appendChild(c);
+          } else {
+            selected.forEach(function (a) {
+              var c = document.createElement('span');
+              c.className = 'chip';
+              c.textContent = a;
+              chips.appendChild(c);
+            });
+          }
+        }
+      }
+    }
+
+    tiles.forEach(function (t) {
+      t.addEventListener('click', function () {
+        var val = decode(t.getAttribute('data-area'));
+        var on = t.getAttribute('aria-pressed') === 'true';
+        t.setAttribute('aria-pressed', on ? 'false' : 'true');
+        if (on) {
+          selected = selected.filter(function (x) {
+            return x !== val;
+          });
+        } else {
+          selected.push(val);
+        }
+        render();
+      });
+    });
+
+    orderBtn.addEventListener('click', function () {
+      var target = document.getElementById(targetSectionId);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+      if (targetFocusId) {
+        setTimeout(function () {
+          var f = document.getElementById(targetFocusId);
+          if (f) f.focus({ preventScroll: true });
+        }, 700);
+      }
+    });
+
+    render();
+  })();
+</script>

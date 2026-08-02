@@ -1,8 +1,28 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import TileSelect from '../components/TileSelect.astro';
+import FranchiseBewerbung from '../components/FranchiseBewerbung.astro';
+
+const regionen = [
+  'Burgenland',
+  'Kärnten',
+  'Niederösterreich',
+  'Oberösterreich',
+  'Salzburg',
+  'Steiermark',
+  'Tirol',
+  'Vorarlberg',
+  'Wien',
+].map((name) => ({ value: name, label: name }));
 ---
 
-<Layout title="Franchise-Partner werden – 123Vorteilswelt" hideCta={true}>
+<Layout
+  title="Franchise-Partner werden – 123Vorteilswelt"
+  ctaLabel="Anfrage starten"
+  ctaHref="/#bewerbung"
+  stickyCtaLabel="Anfrage starten"
+  stickyCtaHref="/#bewerbung"
+>
 
   <!-- HERO — Die Idee -->
   <section class="hero">
@@ -18,7 +38,7 @@ import Layout from '../layouts/Layout.astro';
           Büroausstattung, Werbung und Steuerberatung.
         </p>
         <div class="hero-cta">
-          <a class="btn" href="#kontakt">Franchise-Partner werden</a>
+          <a class="btn" href="#regionen">Franchise-Partner werden</a>
         </div>
         <p class="btn-note">Unverbindlich · Eigene Region · Ohne Vorabinvestition in Ware</p>
         <div class="hero-facts">
@@ -205,46 +225,28 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </section>
 
-  <!-- PARTNER WERDEN – SO GEHT'S -->
-  <section class="band band--dark" id="kontakt">
-    <div class="wrap">
-      <p class="eyebrow on-dark">Partner werden</p>
-      <h2 class="display">Partner werden – so geht's.</h2>
-      <p class="lead">
-        Erzähl uns von dir – wir melden uns für ein unverbindliches Kennenlerngespräch, in dem wir Region,
-        Konditionen und die nächsten Schritte gemeinsam klären.
-      </p>
+  <!-- REGION-AUSWAHL -->
+  <TileSelect
+    id="regionen"
+    heading="In welcher Region möchtest du dich bewerben?"
+    lead="Wähle ein oder mehrere Bundesländer aus – wir sagen dir, welche Region noch frei ist."
+    note="Diese Anfrage ist noch nicht verbindlich."
+    items={regionen}
+    tilesModifier="tiles--3col"
+    orderTitle="Deine Regionen"
+    emptyText="Noch keine Region ausgewählt. Tippe oben auf die Bundesländer, in denen du dich bewerben möchtest."
+    unitSingular="Region"
+    unitPlural="Regionen"
+    itemStatusText="ausgewählt"
+    idleButtonText="Region auswählen"
+    activeButtonTemplate="Diese {n} {unit} übernehmen"
+    helperText="Unverbindlich – der nächste Schritt ist das Bewerbungsformular."
+    targetSectionId="bewerbung"
+    targetFocusId="bfName"
+    targetChipsId="bewerbungChips"
+  />
 
-      <div class="close-grid">
-        <ul class="reasons">
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg>
-            <div><b>Erstgespräch</b><p>Wir lernen uns kennen und klären deine Fragen zum System.</p></div>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg>
-            <div><b>Gebietsklärung</b><p>Wir prüfen gemeinsam, welche Region für dich noch frei ist.</p></div>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg>
-            <div><b>Start</b><p>Du erhältst Zugang zu Netzwerk, Prozessen und Marke – und startest in deiner Region.</p></div>
-          </li>
-        </ul>
-
-        <div class="photo photo--dark">
-          <img
-            src="/placeholders/franchise-contact.svg"
-            alt="Platzhalter: Handschlag oder Beratungsgespräch zwischen Franchise-Partner:in und Interessent:in"
-            width="1600" height="900"
-          >
-        </div>
-      </div>
-
-      <div class="close-cta">
-        <a class="btn" href="mailto:office@123vorteilswelt.at?subject=Franchise-Anfrage">Franchise-Anfrage senden</a>
-        <p class="btn-note">Oder ruf uns an: [Telefonnummer wird ergänzt]</p>
-      </div>
-    </div>
-  </section>
+  <!-- BEWERBUNGSFORMULAR -->
+  <FranchiseBewerbung />
 
 </Layout>

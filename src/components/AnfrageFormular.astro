@@ -57,3 +57,49 @@
     </div>
   </div>
 </section>
+
+<script>
+  (function () {
+    var stageForm = document.getElementById('stageForm')!;
+    var stageSlot = document.getElementById('stageSlot')!;
+    var stageDone = document.getElementById('stageDone')!;
+    var slotBtn = document.getElementById('slotBtn') as HTMLButtonElement;
+    var chosenSlot: string | null = null;
+
+    document.getElementById('sendBtn')!.addEventListener('click', function () {
+      stageForm.classList.add('hidden');
+      stageSlot.classList.remove('hidden');
+      stageSlot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('#slots .slot').forEach(function (s) {
+      s.addEventListener('click', function () {
+        document.querySelectorAll('#slots .slot').forEach(function (o) {
+          o.setAttribute('aria-pressed', 'false');
+        });
+        s.setAttribute('aria-pressed', 'true');
+        chosenSlot = s.firstChild!.textContent!.trim();
+        slotBtn.disabled = false;
+      });
+    });
+
+    slotBtn.addEventListener('click', function () {
+      stageSlot.classList.add('hidden');
+      stageDone.classList.remove('hidden');
+      document.getElementById('doneTxt')!.textContent =
+        'Ihr Termin am ' + chosenSlot + ' ist vorgemerkt. Ihr Ansprechpartner meldet sich vorher noch einmal kurz bei Ihnen.';
+      stageDone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    document.getElementById('resetBtn')!.addEventListener('click', function () {
+      stageDone.classList.add('hidden');
+      stageForm.classList.remove('hidden');
+      slotBtn.disabled = true;
+      chosenSlot = null;
+      document.querySelectorAll('#slots .slot').forEach(function (o) {
+        o.setAttribute('aria-pressed', 'false');
+      });
+      document.getElementById('bereiche')!.scrollIntoView({ behavior: 'smooth' });
+    });
+  })();
+</script>
