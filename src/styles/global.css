@@ -339,7 +339,7 @@ input{
 input:focus{outline:0;border-color:var(--green);box-shadow:0 0 0 3px var(--green-tint)}
 .consent{font-size:.8rem;color:var(--grey-500);margin-top:18px;max-width:60ch}
 .formcard .btn{margin-top:22px;width:100%}
-.reasons{display:grid;gap:50px}
+.reasons{display:grid;gap:50px;align-self:start}
 .reasons li{list-style:none;display:flex;gap:13px;align-items:flex-start}
 .reasons svg{width:20px;height:20px;color:var(--green);flex:0 0 auto;margin-top:3px}
 .reasons b{display:block;font-size:.98rem}
