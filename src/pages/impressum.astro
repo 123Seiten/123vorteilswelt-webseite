@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { brand } from '../config/brand';
 ---
 
-<Layout title="Impressum – 123Vorteilswelt">
+<Layout title={`Impressum – ${brand.name}`}>
   <section class="band">
     <div class="wrap">
       <div class="rule"></div>
@@ -13,7 +14,7 @@ import Layout from '../layouts/Layout.astro';
         <div class="legal-section">
           <h3 class="display">Diensteanbieter</h3>
           <p>
-            123Vorteilswelt GmbH<br>
+            {brand.name} GmbH<br>
             Ivica Osim Platz 2/5<br>
             A-8041 Graz
           </p>
@@ -33,7 +34,7 @@ import Layout from '../layouts/Layout.astro';
           <h3 class="display">Kontakt</h3>
           <p>
             Telefon: [Telefonnummer wird ergänzt]<br>
-            E-Mail: <a href="mailto:office@123vorteilswelt.at">office@123vorteilswelt.at</a>
+            E-Mail: <a href={`mailto:${brand.email}`}>{brand.email}</a>
           </p>
         </div>
 

@@ -1,4 +1,6 @@
 ---
+import Logo from './Logo.astro';
+
 interface Props {
   hideCta?: boolean;
   ctaLabel?: string;
@@ -11,7 +13,7 @@ const { hideCta = false, ctaLabel = 'Analyse anfordern', ctaHref = `${base}#anfr
 <header>
   <div class="wrap bar">
     <a class="logo" href={base}>
-      <img src={`${base}logo.png`} alt="123Vorteilswelt.at – Preise für Profis" class="logo-img">
+      <Logo />
     </a>
     <nav class="nav">
       <a href={`${base}#ablauf`}>Ablauf</a>

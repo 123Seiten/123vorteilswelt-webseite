@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { brand } from '../config/brand';
 import '../styles/global.css';
 
 interface Props {
@@ -14,7 +15,7 @@ interface Props {
 
 const base = import.meta.env.BASE_URL;
 const {
-  title = '123Vorteilswelt – Prototyp Kundenwebseite',
+  title = `${brand.name} – Prototyp Kundenwebseite`,
   hideCta = false,
   ctaLabel = 'Analyse anfordern',
   ctaHref = `${base}#anfrage`,

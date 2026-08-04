@@ -1,0 +1,6 @@
+---
+import { brand } from '../config/brand';
+
+const base = import.meta.env.BASE_URL;
+---
+<img src={`${base}${brand.logo.src}`} alt={`${brand.name}.at – ${brand.tagline}`} class="logo-img">
