@@ -11,6 +11,7 @@ interface Props {
   ctaHref?: string;
   stickyCtaLabel?: string;
   stickyCtaHref?: string;
+  showPartnerLink?: boolean;
 }
 
 const base = import.meta.env.BASE_URL;
@@ -18,9 +19,10 @@ const {
   title = `${brand.name} – Prototyp Kundenwebseite`,
   hideCta = false,
   ctaLabel = 'Analyse anfordern',
-  ctaHref = `${base}#anfrage`,
+  ctaHref = `${base}#bereiche`,
   stickyCtaLabel = 'Kostenlose Analyse anfordern',
   stickyCtaHref = `${base}#bereiche`,
+  showPartnerLink = false,
 } = Astro.props;
 ---
 
@@ -34,18 +36,50 @@ const {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
 
 <div class="proto"><b>Prototyp</b> · Entwurf zur Abstimmung · Bilder, Logo und Fallbeispiele sind Platzhalter · Es werden keine Daten übertragen</div>
 
-<Header hideCta={hideCta} ctaLabel={ctaLabel} ctaHref={ctaHref} />
+<Header hideCta={hideCta} ctaLabel={ctaLabel} ctaHref={ctaHref} showPartnerLink={showPartnerLink} />
 
 <slot />
 
 <Footer />
 
 {!hideCta && <div class="sticky"><a class="btn" href={stickyCtaHref}>{stickyCtaLabel}</a></div>}
+
+<script>
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!els.length) return;
+
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced || !('IntersectionObserver' in window)) {
+      els.forEach(function (el) {
+        el.classList.add('is-visible');
+      });
+      return;
+    }
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -8% 0px' }
+    );
+
+    els.forEach(function (el) {
+      observer.observe(el);
+    });
+  })();
+</script>
 
 </body>
 </html>
