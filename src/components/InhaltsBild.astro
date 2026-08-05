@@ -1,0 +1,34 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import { getBild, type BildKey } from '../config/bilder';
+
+interface Props {
+  /** Schlüssel aus src/config/bilder.ts */
+  eintrag: BildKey;
+  class?: string;
+  width?: number;
+  height?: number;
+  loading?: 'lazy' | 'eager';
+}
+
+const { eintrag, class: klass, width, height, loading = 'lazy' } = Astro.props;
+const bild = getBild(eintrag);
+
+const dateien = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/bilder/*.{jpeg,jpg,png,gif,webp,avif}',
+  { eager: true }
+);
+const pfad = `/src/assets/bilder/${bild.datei}`;
+const quelle = dateien[pfad];
+
+if (!quelle) {
+  throw new Error(
+    `InhaltsBild: Datei "${bild.datei}" (Eintrag "${eintrag}") wurde nicht in src/assets/bilder/ gefunden.`
+  );
+}
+---
+<span class:list={['bild-wrap', klass]}>
+  <Image src={quelle.default} alt={bild.alt} width={width} height={height} loading={loading} format="webp" />
+  {bild.kiGeneriert && <span class="bild-ki-badge">mit KI erstellt</span>}
+</span>

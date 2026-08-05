@@ -1,0 +1,18 @@
+---
+import { getBild, type BildKey } from '../config/bilder';
+
+interface Props {
+  /** Schlüssel aus src/config/bilder.ts */
+  eintrag: BildKey;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+}
+
+const { eintrag, class: klass, loading = 'lazy' } = Astro.props;
+const bild = getBild(eintrag);
+const base = import.meta.env.BASE_URL;
+---
+<span class:list={['bild-wrap', klass]}>
+  <img src={`${base}bilder/${bild.datei}`} alt={bild.alt} loading={loading} />
+  {bild.kiGeneriert && <span class="bild-ki-badge">mit KI erstellt</span>}
+</span>

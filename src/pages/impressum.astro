@@ -1,6 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { brand } from '../config/brand';
+import { BILDER, BILDQUELLEN_LIZENZ } from '../config/bilder';
+
+const bildEintraege = Object.values(BILDER);
+const quellen = [...new Set(bildEintraege.map((b) => b.quelle))];
 ---
 
 <Layout title={`Impressum – ${brand.name}`}>
@@ -62,6 +66,22 @@ import { brand } from '../config/brand';
             Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, abrufbar unter
             <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">ec.europa.eu/consumers/odr</a>.
             Wir sind zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle [nicht/verpflichtet – wird ergänzt].
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Bildquellen</h3>
+          {quellen.map((quelle) => {
+            const lizenz = BILDQUELLEN_LIZENZ[quelle];
+            return <p>Bildmaterial: {quelle}{lizenz && ` (${lizenz})`}.</p>;
+          })}
+          <p>
+            {bildEintraege.map((bild, i) => (
+              <>
+                {bild.beschreibung} ({bild.quelle}{bild.kiGeneriert && ', mit KI erstellt'})
+                {i < bildEintraege.length - 1 && <br />}
+              </>
+            ))}
           </p>
         </div>
       </div>

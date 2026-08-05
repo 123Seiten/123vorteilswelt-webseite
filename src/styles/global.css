@@ -151,6 +151,10 @@ header{
   content:"";position:absolute;right:-160px;top:-120px;width:520px;height:520px;
   border:90px solid var(--brand-tint);border-radius:50%;z-index:0;
 }
+.hero:has(.hero-bg-layer)::after{content:none}
+.hero .hero-bg-layer{position:absolute;inset:0;z-index:0}
+.hero-bg-layer img{width:100%;height:100%;object-fit:cover}
+.hero-bg-overlay{position:absolute;inset:0;z-index:0;background:rgba(255,255,255,.86)}
 .hero .wrap{position:relative;z-index:1}
 .hero-grid{display:grid;gap:44px;align-items:center}
 @media(min-width:900px){.hero-grid{grid-template-columns:1.15fr .85fr;gap:56px}}
@@ -436,6 +440,16 @@ footer a:hover{color:var(--brand)}
 .close-grid{display:grid;gap:34px;margin-top:38px;align-items:center}
 @media(min-width:860px){.close-grid{grid-template-columns:1fr 1fr;gap:48px}}
 .close-cta{margin-top:38px}
+
+/* ---------- Bild-Infrastruktur (InhaltsBild / HintergrundBild) ---------- */
+.bild-wrap{position:relative;display:block;line-height:0}
+.bild-wrap img{width:100%;height:auto;display:block}
+.bild-ki-badge{
+  position:absolute;right:10px;bottom:10px;z-index:2;
+  background:rgba(17,19,21,.72);color:var(--white);backdrop-filter:blur(2px);
+  font-size:.7rem;font-weight:600;letter-spacing:.02em;line-height:1;
+  padding:6px 10px;border-radius:100px;
+}
 
 /* ---------- Sticky mobile CTA ---------- */
 .sticky{
