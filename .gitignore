@@ -25,3 +25,11 @@ pnpm-debug.log*
 
 # local Claude Code permissions (machine-specific)
 .claude/settings.local.json
+
+# interne Planungsdokumente — nicht ins öffentliche Repo
+UEBERGABE-AN-VORTEILSWELT.md
+AUFTRAG-*.md
+123Vorteilswelt_Website_Prototyp.html
+
+# Mailversand-Zugangsdaten — nur per FTP auf den Server, nie ins Repo
+public/mail-config.php

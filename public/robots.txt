@@ -1,2 +1,3 @@
 User-agent: *
-Disallow: /
+Allow: /
+Sitemap: https://123vorteilswelt.at/sitemap-index.xml
