@@ -5,6 +5,19 @@ import { BILDER, BILDQUELLEN_LIZENZ } from '../config/bilder';
 
 const bildEintraege = Object.values(BILDER);
 const quellen = [...new Set(bildEintraege.map((b) => b.quelle))];
+
+/** Baut "Label: Wert"-Zeilen und lässt Paare mit leerem Wert automatisch weg. */
+function zeilenBlock(paare: Array<[string, string]>): string[] {
+  return paare
+    .filter(([, wert]) => wert !== '')
+    .map(([label, wert]) => `${label}: ${wert}`);
+}
+
+const firmenbuchZeilen = zeilenBlock([
+  ['Firmenbuchnummer', brand.company.firmenbuchnummer],
+  ['Firmenbuchgericht', brand.company.firmenbuchgericht],
+  ['UID-Nummer', brand.company.uid],
+]);
 ---
 
 <Layout title={`Impressum – ${brand.name}`}>
@@ -18,46 +31,54 @@ const quellen = [...new Set(bildEintraege.map((b) => b.quelle))];
         <div class="legal-section">
           <h3 class="display">Diensteanbieter</h3>
           <p>
-            {brand.name} GmbH<br>
-            Ivica Osim Platz 2/5<br>
-            A-8041 Graz
+            {brand.company.legalName}<br>
+            {brand.company.street}<br>
+            {brand.company.postalCode} {brand.company.city}<br>
+            {brand.company.country}
           </p>
-          <p>
-            Firmenbuchnummer: [FN wird ergänzt]<br>
-            Firmenbuchgericht: [Landesgericht wird ergänzt]<br>
-            UID-Nummer: [ATU-Nummer wird ergänzt]
-          </p>
+          {firmenbuchZeilen.length > 0 && (
+            <p>
+              {firmenbuchZeilen.map((zeile, i) => (
+                <>{zeile}{i < firmenbuchZeilen.length - 1 && <br />}</>
+              ))}
+            </p>
+          )}
         </div>
 
         <div class="legal-section">
           <h3 class="display">Vertretungsberechtigte Geschäftsführung</h3>
-          <p>[Name der/des Geschäftsführer:in wird ergänzt]</p>
+          <p>{brand.company.managingDirector}</p>
         </div>
 
         <div class="legal-section">
           <h3 class="display">Kontakt</h3>
           <p>
-            Telefon: [Telefonnummer wird ergänzt]<br>
+            Telefon: {brand.company.phone}<br>
             E-Mail: <a href={`mailto:${brand.email}`}>{brand.email}</a>
           </p>
         </div>
 
         <div class="legal-section">
           <h3 class="display">Unternehmensgegenstand</h3>
-          <p>[Unternehmensgegenstand wird ergänzt]</p>
+          <p>{brand.company.businessPurpose}</p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">Berufsbezeichnung/Gewerbe</h3>
+          <p>{brand.company.profession} (verliehen in {brand.company.professionCountry})</p>
         </div>
 
         <div class="legal-section">
           <h3 class="display">Mitgliedschaften</h3>
           <p>
-            Mitglied der Wirtschaftskammer [Bundesland wird ergänzt]<br>
+            Mitglied der {brand.company.chamber}<br>
             Anwendbare Rechtsvorschriften: Gewerbeordnung (<a href="https://www.ris.bka.gv.at" target="_blank" rel="noopener">www.ris.bka.gv.at</a>)
           </p>
         </div>
 
         <div class="legal-section">
           <h3 class="display">Aufsichtsbehörde</h3>
-          <p>[zuständige Gewerbebehörde wird ergänzt]</p>
+          <p>{brand.company.authority}</p>
         </div>
 
         <div class="legal-section">
@@ -65,7 +86,7 @@ const quellen = [...new Set(bildEintraege.map((b) => b.quelle))];
           <p>
             Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, abrufbar unter
             <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">ec.europa.eu/consumers/odr</a>.
-            Wir sind zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle [nicht/verpflichtet – wird ergänzt].
+            Wir sind weder bereit noch verpflichtet, an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
           </p>
         </div>
 

@@ -24,6 +24,32 @@ export const brand = {
   },
 
   /**
+   * Rechtliche Unternehmensdaten für das Impressum (src/pages/impressum.astro).
+   * firmenbuchnummer, firmenbuchgericht und uid sind bewusst leer, solange die
+   * GmbH-Eintragung noch aussteht — impressum.astro blendet die jeweilige
+   * Zeile automatisch aus, bis hier ein Wert steht.
+   */
+  company: {
+    legalName: '123Vorteilswelt Franchise GmbH',
+    street: 'Wienersdorfer Straße 20-24/M37/12/1',
+    postalCode: '2514',
+    city: 'Traiskirchen',
+    country: 'Österreich',
+    managingDirector: 'Stefan Langmann',
+    phone: '+43 660 7693620',
+    businessPurpose: 'Optimierungen im gewerblichen Einkauf auf Erfolgsbasis',
+    profession: 'Handelsagentur',
+    professionCountry: 'Österreich',
+    authority: 'Bezirkshauptmannschaft Baden',
+    chamber: 'Wirtschaftskammer Niederösterreich',
+    firmenbuchnummer: '',
+    firmenbuchgericht: '',
+    uid: '',
+    inquiryEmail: 'anfrage@123vorteilswelt.at',
+    franchiseEmail: 'franchise@123vorteilswelt.at',
+  },
+
+  /**
    * Referenzwerte — müssen mit src/styles/global.css :root übereinstimmen.
    */
   colors: {

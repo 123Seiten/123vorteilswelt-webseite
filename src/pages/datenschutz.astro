@@ -1,0 +1,67 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { brand } from '../config/brand';
+
+/** Leicht änderbarer Wert — bei inhaltlichen Änderungen dieser Seite aktualisieren. */
+const stand = 'September 2026';
+---
+
+<Layout title={`Datenschutzerklärung – ${brand.name}`}>
+  <section class="band">
+    <div class="wrap">
+      <div class="rule"></div>
+      <h1 class="display">Datenschutzerklärung</h1>
+      <p class="lead">Information über die Verarbeitung personenbezogener Daten gemäß Art. 13 und 14 DSGVO.</p>
+      <p class="lead">Stand: {stand}.</p>
+
+      <div class="legal">
+        <div class="legal-section">
+          <h3 class="display">1 · Verantwortlicher</h3>
+          <p>
+            {brand.company.legalName}, {brand.company.street}, {brand.company.postalCode} {brand.company.city}, {brand.company.country}.
+            Telefon: {brand.company.phone}.
+            E-Mail: <a href={`mailto:${brand.email}`}>{brand.email}</a>.
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">2 · Grundsatz</h3>
+          <p>Diese Website ist bewusst datensparsam gestaltet. Wir setzen keine Cookies ein, binden keine externen Inhalte ein und führen weder eine Zugriffs- oder Reichweitenstatistik noch ein Verhaltens-Tracking durch.</p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">3 · Hosting und Server-Logfiles</h3>
+          <p>Unsere Website wird bei der ALL-INKL.COM – Neue Medien Münnich, Inhaber: René Münnich, Hauptstraße 68, 02742 Friedersdorf, Deutschland, gehostet. Mit dem Anbieter besteht ein Auftragsverarbeitungsvertrag nach Art. 28 DSGVO. Die Server stehen in Deutschland; eine Übermittlung in Drittländer findet nicht statt. Beim Aufruf der Website werden technisch notwendige Server-Logfiles (unter anderem die IP-Adresse) verarbeitet und nach spätestens sieben Tagen automatisch gelöscht. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse am sicheren Betrieb). Die Datenübertragung erfolgt verschlüsselt über HTTPS.</p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">4 · Anfrageformular</h3>
+          <p>Über das Anfrageformular verarbeiten wir: Firma, Name des Ansprechpartners, PLZ, Telefonnummer, E-Mail-Adresse sowie die von Ihnen ausgewählten Einkaufsbereiche. Zweck ist die Bearbeitung Ihrer Anfrage und die Erstellung der Einkaufsanalyse beziehungsweise eines Angebots. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Durchführung vorvertraglicher Maßnahmen). Die Angaben werden per E-Mail an {brand.company.inquiryEmail} sowie an den für Ihre Region zuständigen Ansprechpartner übermittelt. Kommt keine Beauftragung zustande, löschen wir Ihre Daten spätestens sechs Monate nach der letzten Kommunikation. Bei Beauftragung gilt die siebenjährige Aufbewahrungspflicht nach § 212 UGB.</p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">5 · Franchise-Bewerbungen</h3>
+          <p>Über das Franchise-Bewerbungsformular verarbeiten wir: Name, E-Mail-Adresse, Telefonnummer, PLZ, gegebenenfalls Firma sowie Ihre Angabe, ob Sie bestehender Betrieb oder Quereinsteiger sind, und die von Ihnen gewählte(n) Region(en). Zweck ist die Prüfung Ihrer Bewerbung. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO. Die Angaben werden per E-Mail an {brand.company.franchiseEmail} übermittelt. Wir führen keinen Bewerberpool; kommt keine Zusammenarbeit zustande, löschen wir Ihre Daten spätestens sechs Monate nach der letzten Kommunikation.</p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">6 · Kommunikation per E-Mail oder Telefon</h3>
+          <p>Kontaktieren Sie uns per E-Mail oder Telefon, verarbeiten wir Ihre Angaben zur Beantwortung Ihres Anliegens. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO bei vertragsbezogener Kommunikation, andernfalls Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Kommunikation). Es gelten dieselben Löschfristen wie beim Anfrageformular.</p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">7 · Keine Cookies, keine externen Dienste</h3>
+          <p>Unsere Website verwendet keine Cookies und keine vergleichbaren Speichertechnologien. Sämtliche Inhalte werden von unserem eigenen Server ausgeliefert. Die verwendeten Schriftarten (Big Shoulders Display, Inter) sind lokal eingebunden; es werden keine Google Fonts, Kartendienste, Videoplattformen, Social-Media-Elemente oder Werbenetzwerke geladen. Eine Reichweitenmessung oder ein Tracking findet nicht statt.</p>
+        </div>
+
+        <div class="legal-section">
+          <h3 class="display">8 · Ihre Rechte</h3>
+          <p>
+            Sie haben das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch (Art. 21) nach DSGVO. Darüber hinaus können Sie sich bei der Aufsichtsbehörde beschweren:
+            Österreichische Datenschutzbehörde, Barichgasse 40–42, 1030 Wien, <a href="https://www.dsb.gv.at" target="_blank" rel="noopener">www.dsb.gv.at</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

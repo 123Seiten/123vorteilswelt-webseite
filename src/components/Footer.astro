@@ -16,13 +16,13 @@ const base = import.meta.env.BASE_URL;
       </div>
       <div>
         <h4>Kontakt</h4>
-        <p>{brand.name} GmbH<br>Ivica Osim Platz 2/5<br>A-8041 Graz</p>
+        <p>{brand.company.legalName}<br>{brand.company.street}<br>{brand.company.postalCode} {brand.company.city}</p>
         <a href={`mailto:${brand.email}`}>{brand.email}</a>
       </div>
       <div>
         <h4>Rechtliches</h4>
         <a href={`${base}impressum`}>Impressum</a>
-        <a href="#">Datenschutz</a>
+        <a href={`${base}datenschutz`}>Datenschutz</a>
         <a href="#">AGB</a>
       </div>
     </div>
