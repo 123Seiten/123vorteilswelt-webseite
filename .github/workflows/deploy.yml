@@ -24,7 +24,7 @@ jobs:
       - name: Bauen
         run: npm run build
         env:
-          PUBLIC_FORM_ENDPOINT: ${{ secrets.PUBLIC_FORM_ENDPOINT }}
+          PUBLIC_FORM_ENDPOINT: /formular.php
 
       - name: Per FTP hochladen
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5

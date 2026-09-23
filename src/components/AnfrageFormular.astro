@@ -1,4 +1,8 @@
 ---
+import { brand } from '../config/brand';
+
+const base = import.meta.env.BASE_URL;
+const telHref = brand.company.phone.replace(/\s+/g, '');
 ---
 <section class="band band--dark reveal" id="anfrage">
   <div class="wrap">
@@ -25,32 +29,36 @@
             <div><label for="fTel">Telefon</label><input id="fTel" type="tel" placeholder="0664 1234567"></div>
             <div class="f-full"><label for="fMail">E-Mail</label><input id="fMail" type="email" placeholder="name@betrieb.at"></div>
           </div>
-          <button class="btn" id="sendBtn" type="button">Unverbindliche Anfrage senden</button>
-          <p class="consent"><b>Mit dem Absenden stellen Sie eine unverbindliche Anfrage</b> – Sie kaufen damit nichts und es entstehen keine Kosten. Ob und wann Sie die professionelle Analyse (einmalig 290 € netto*)) beauftragen, entscheiden Sie danach in Ruhe. *) Alle Preise netto zzgl. USt.</p>
-          <p class="consent">Ihre Angaben werden ausschließlich zur Bearbeitung Ihrer Anfrage verwendet und an Ihren regionalen Ansprechpartner weitergeleitet. [Datenschutzhinweis final abstimmen.]</p>
-        </div>
 
-        <!-- Stufe B: Termin -->
-        <div id="stageSlot" class="hidden">
-          <h3 class="display stage-title">Wann passt es Ihnen?</h3>
-          <p style="font-size:.9rem;color:var(--grey-500)">Wählen Sie einen Termin für das kostenlose Erstgespräch – telefonisch oder bei Ihnen im Betrieb, rund 30 Minuten.</p>
-          <div class="slotgrid" id="slots">
-            <button class="slot" type="button" aria-pressed="false">Dienstag, 9:00<small>Telefonisch</small></button>
-            <button class="slot" type="button" aria-pressed="false">Dienstag, 14:30<small>Telefonisch</small></button>
-            <button class="slot" type="button" aria-pressed="false">Mittwoch, 8:30<small>Vor Ort im Betrieb</small></button>
-            <button class="slot" type="button" aria-pressed="false">Donnerstag, 16:00<small>Telefonisch</small></button>
+          <input type="hidden" id="fFormular" value="anfrage">
+          <input type="hidden" id="fTs">
+          <div class="hp" aria-hidden="true">
+            <label for="fGotcha">Bitte leer lassen</label>
+            <input type="text" id="fGotcha" autocomplete="off" tabindex="-1">
           </div>
-          <button class="btn" id="slotBtn" type="button" disabled>Termin bestätigen</button>
-          <p class="consent">Lieber später entscheiden? Ihr Ansprechpartner meldet sich ohnehin innerhalb von 24 Stunden.</p>
+
+          <p class="consent-check">
+            <label>
+              <input type="checkbox" id="fDatenschutz" required>
+              <span>Ich habe die <a href={`${base}datenschutz`}>Datenschutzerklärung</a> gelesen und bin einverstanden.</span>
+            </label>
+          </p>
+
+          <button class="btn" id="sendBtn" type="button">Unverbindliche Anfrage senden</button>
+          <p class="form-error hidden" id="formError"></p>
+          <p class="form-error hidden" id="sendError">
+            Konnte gerade nicht übermittelt werden. Bitte in ein paar Minuten erneut versuchen — oder rufen Sie uns an: <a href={`tel:${telHref}`}>{brand.company.phone}</a> · <a href={`mailto:${brand.email}`}>{brand.email}</a>.
+          </p>
+          <p class="consent"><b>Mit dem Absenden stellen Sie eine unverbindliche Anfrage</b> – Sie kaufen damit nichts und es entstehen keine Kosten. Ob und wann Sie die professionelle Analyse (einmalig 290 € netto*)) beauftragen, entscheiden Sie danach in Ruhe. *) Alle Preise netto zzgl. USt.</p>
         </div>
 
-        <!-- Stufe C: Bestätigung -->
+        <!-- Stufe B: Bestätigung -->
         <div id="stageDone" class="hidden">
           <div class="done">
             <div class="done-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div>
             <h3 class="display" style="margin-bottom:10px">Anfrage eingegangen</h3>
-            <p style="color:var(--grey-700);font-size:.98rem;max-width:44ch;margin:0 auto 18px" id="doneTxt">Ihr Ansprechpartner meldet sich vor dem Termin noch einmal kurz bei Ihnen.</p>
-            <p style="font-size:.84rem;color:var(--grey-500)">Prototyp – es wurden keine Daten übertragen.</p>
+            <p style="color:var(--grey-700);font-size:.98rem;max-width:44ch;margin:0 auto 18px" id="doneTxt">Vielen Dank! Ihr regionaler Ansprechpartner meldet sich innerhalb von 24 Stunden bei Ihnen.</p>
+            <p style="font-size:.84rem;color:var(--grey-500)" id="doneHinweis" class="hidden">Ihre Anfrage wurde übermittelt, eine Bestätigungs-E-Mail konnte nicht versendet werden.</p>
             <button class="btn btn--sm" id="resetBtn" type="button" style="margin-top:20px;width:auto">Ablauf noch einmal durchspielen</button>
           </div>
         </div>
@@ -62,44 +70,95 @@
 <script>
   (function () {
     var stageForm = document.getElementById('stageForm')!;
-    var stageSlot = document.getElementById('stageSlot')!;
     var stageDone = document.getElementById('stageDone')!;
-    var slotBtn = document.getElementById('slotBtn') as HTMLButtonElement;
-    var chosenSlot: string | null = null;
+    var sendBtn = document.getElementById('sendBtn') as HTMLButtonElement;
+    var formError = document.getElementById('formError')!;
+    var sendError = document.getElementById('sendError')!;
+    var doneHinweis = document.getElementById('doneHinweis')!;
+    var sendBtnLabel = sendBtn.textContent || 'Unverbindliche Anfrage senden';
 
-    document.getElementById('sendBtn')!.addEventListener('click', function () {
+    var tsField = document.getElementById('fTs') as HTMLInputElement;
+    tsField.value = String(Date.now());
+
+    function feldWert(id: string): string {
+      var el = document.getElementById(id) as HTMLInputElement | null;
+      return el ? el.value.trim() : '';
+    }
+
+    function ausgewaehlteChips(containerId: string): string[] {
+      var container = document.getElementById(containerId);
+      if (!container) return [];
+      return Array.prototype.slice
+        .call(container.querySelectorAll('.chip:not(.chip--none)'))
+        .map(function (c: Element) { return (c.textContent || '').trim(); });
+    }
+
+    function zeigeBestaetigung(hinweisCode: string | null): void {
       stageForm.classList.add('hidden');
-      stageSlot.classList.remove('hidden');
-      stageSlot.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
-
-    document.querySelectorAll<HTMLButtonElement>('#slots .slot').forEach(function (s) {
-      s.addEventListener('click', function () {
-        document.querySelectorAll('#slots .slot').forEach(function (o) {
-          o.setAttribute('aria-pressed', 'false');
-        });
-        s.setAttribute('aria-pressed', 'true');
-        chosenSlot = s.firstChild!.textContent!.trim();
-        slotBtn.disabled = false;
-      });
-    });
-
-    slotBtn.addEventListener('click', function () {
-      stageSlot.classList.add('hidden');
       stageDone.classList.remove('hidden');
-      document.getElementById('doneTxt')!.textContent =
-        'Ihr Termin am ' + chosenSlot + ' ist vorgemerkt. Ihr Ansprechpartner meldet sich vorher noch einmal kurz bei Ihnen.';
+      doneHinweis.classList.toggle('hidden', !hinweisCode);
       stageDone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function zeigeSendeFehler(): void {
+      sendBtn.disabled = false;
+      sendBtn.textContent = sendBtnLabel;
+      sendError.classList.remove('hidden');
+    }
+
+    sendBtn.addEventListener('click', function () {
+      formError.classList.add('hidden');
+      sendError.classList.add('hidden');
+      var name = feldWert('fName');
+      var email = feldWert('fMail');
+      var plz = feldWert('fPlz');
+      var datenschutz = document.getElementById('fDatenschutz') as HTMLInputElement;
+      if (!name || !email || !plz || !datenschutz.checked) {
+        formError.textContent = 'Bitte Ansprechpartner, E-Mail und PLZ angeben und der Datenschutzerklärung zustimmen.';
+        formError.classList.remove('hidden');
+        return;
+      }
+
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Wird gesendet…';
+
+      var endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT;
+      if (!endpoint) {
+        zeigeBestaetigung(null);
+        return;
+      }
+
+      var formData = new FormData();
+      formData.append('formular', 'anfrage');
+      formData.append('name', name);
+      formData.append('firma', feldWert('fFirma'));
+      formData.append('email', email);
+      formData.append('telefon', feldWert('fTel'));
+      formData.append('plz', plz);
+      formData.append('datenschutz', datenschutz.checked ? '1' : '');
+      formData.append('_gotcha', feldWert('fGotcha'));
+      formData.append('_ts', tsField.value);
+      ausgewaehlteChips('chips').forEach(function (b) { formData.append('bereiche[]', b); });
+
+      fetch(endpoint, { method: 'POST', body: formData })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data && data.ok) {
+            zeigeBestaetigung(data.hinweis || null);
+          } else {
+            zeigeSendeFehler();
+          }
+        })
+        .catch(function () {
+          zeigeSendeFehler();
+        });
     });
 
     document.getElementById('resetBtn')!.addEventListener('click', function () {
       stageDone.classList.add('hidden');
       stageForm.classList.remove('hidden');
-      slotBtn.disabled = true;
-      chosenSlot = null;
-      document.querySelectorAll('#slots .slot').forEach(function (o) {
-        o.setAttribute('aria-pressed', 'false');
-      });
+      sendBtn.disabled = false;
+      sendBtn.textContent = sendBtnLabel;
       document.getElementById('bereiche')!.scrollIntoView({ behavior: 'smooth' });
     });
   })();

@@ -1,4 +1,8 @@
 ---
+import { brand } from '../config/brand';
+
+const base = import.meta.env.BASE_URL;
+const telHref = brand.company.phone.replace(/\s+/g, '');
 ---
 <section class="band band--dark reveal" id="bewerbung">
   <div class="wrap">
@@ -8,7 +12,7 @@
     <div class="formwrap">
       <ul class="reasons">
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg><div><b>Unverbindlich</b><p>Die Bewerbung ist ein erstes Kennenlernen, keine Verpflichtung.</p></div></li>
-        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg><div><b>Persönliche Rückmeldung</b><p>Wir melden uns direkt bei dir, keine automatisierte Antwort.</p></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg><div><b>Persönliche Rückmeldung</b><p>Wir melden uns persönlich bei dir.</p></div></li>
         <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6 9 17l-5-5"/></svg><div><b>Deine Region im Blick</b><p>Wir klären gleich mit, welches Bundesland für dich noch frei ist.</p></div></li>
       </ul>
 
@@ -32,32 +36,35 @@
               </div>
             </div>
           </div>
-          <input type="hidden" id="bfKind" value="Franchise-Bewerbung">
-          <button class="btn" id="bfSendBtn" type="button">Bewerbung senden</button>
-          <p class="consent">Deine Angaben werden ausschließlich zur Bearbeitung deiner Bewerbung verwendet. [Datenschutzhinweis final abstimmen.]</p>
-        </div>
 
-        <!-- Stufe B: Termin -->
-        <div id="bfStageSlot" class="hidden">
-          <h3 class="display stage-title">Wann passt es dir?</h3>
-          <p style="font-size:.9rem;color:var(--grey-500)">Wähle einen Termin für ein kurzes Kennenlerngespräch – telefonisch oder bei dir vor Ort, rund 30 Minuten.</p>
-          <div class="slotgrid" id="bfSlots">
-            <button class="slot" type="button" aria-pressed="false">Dienstag, 9:00<small>Telefonisch</small></button>
-            <button class="slot" type="button" aria-pressed="false">Dienstag, 14:30<small>Telefonisch</small></button>
-            <button class="slot" type="button" aria-pressed="false">Mittwoch, 8:30<small>Vor Ort im Betrieb</small></button>
-            <button class="slot" type="button" aria-pressed="false">Donnerstag, 16:00<small>Telefonisch</small></button>
+          <input type="hidden" id="bfFormular" value="franchise">
+          <input type="hidden" id="bfTs">
+          <div class="hp" aria-hidden="true">
+            <label for="bfGotcha">Bitte leer lassen</label>
+            <input type="text" id="bfGotcha" autocomplete="off" tabindex="-1">
           </div>
-          <button class="btn" id="bfSlotBtn" type="button" disabled>Termin bestätigen</button>
-          <p class="consent">Lieber später entscheiden? Wir melden uns ohnehin innerhalb von 48 Stunden bei dir.</p>
+
+          <p class="consent-check">
+            <label>
+              <input type="checkbox" id="bfDatenschutz" required>
+              <span>Ich habe die <a href={`${base}datenschutz`}>Datenschutzerklärung</a> gelesen und bin einverstanden.</span>
+            </label>
+          </p>
+
+          <button class="btn" id="bfSendBtn" type="button">Bewerbung senden</button>
+          <p class="form-error hidden" id="bfFormError"></p>
+          <p class="form-error hidden" id="bfSendError">
+            Konnte gerade nicht übermittelt werden. Bitte in ein paar Minuten erneut versuchen — oder rufen Sie uns an: <a href={`tel:${telHref}`}>{brand.company.phone}</a> · <a href={`mailto:${brand.email}`}>{brand.email}</a>.
+          </p>
         </div>
 
-        <!-- Stufe C: Bestätigung -->
+        <!-- Stufe B: Bestätigung -->
         <div id="bfStageDone" class="hidden">
           <div class="done">
             <div class="done-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div>
             <h3 class="display" style="margin-bottom:10px">Bewerbung eingegangen</h3>
             <p style="color:var(--grey-700);font-size:.98rem;max-width:44ch;margin:0 auto 18px" id="bfDoneTxt">Danke für deine Bewerbung, wir melden uns persönlich bei dir.</p>
-            <p style="font-size:.84rem;color:var(--grey-500)">Prototyp – es wurden keine Daten übertragen.</p>
+            <p style="font-size:.84rem;color:var(--grey-500)" id="bfDoneHinweis" class="hidden">Deine Bewerbung wurde übermittelt, eine Bestätigungs-E-Mail konnte nicht versendet werden.</p>
             <button class="btn btn--sm" id="bfResetBtn" type="button" style="margin-top:20px;width:auto">Ablauf noch einmal durchspielen</button>
           </div>
         </div>
@@ -69,13 +76,29 @@
 <script>
   (function () {
     var stageForm = document.getElementById('bfStageForm')!;
-    var stageSlot = document.getElementById('bfStageSlot')!;
     var stageDone = document.getElementById('bfStageDone')!;
-    var slotBtn = document.getElementById('bfSlotBtn') as HTMLButtonElement;
-    var sendBtn = document.getElementById('bfSendBtn')!;
+    var sendBtn = document.getElementById('bfSendBtn') as HTMLButtonElement;
     var resetBtn = document.getElementById('bfResetBtn')!;
-    var doneTxt = document.getElementById('bfDoneTxt')!;
-    var chosenSlot: string | null = null;
+    var doneHinweis = document.getElementById('bfDoneHinweis')!;
+    var formError = document.getElementById('bfFormError')!;
+    var sendError = document.getElementById('bfSendError')!;
+    var sendBtnLabel = sendBtn.textContent || 'Bewerbung senden';
+
+    var tsField = document.getElementById('bfTs') as HTMLInputElement;
+    tsField.value = String(Date.now());
+
+    function feldWert(id: string): string {
+      var el = document.getElementById(id) as HTMLInputElement | null;
+      return el ? el.value.trim() : '';
+    }
+
+    function ausgewaehlteChips(containerId: string): string[] {
+      var container = document.getElementById(containerId);
+      if (!container) return [];
+      return Array.prototype.slice
+        .call(container.querySelectorAll('.chip:not(.chip--none)'))
+        .map(function (c: Element) { return (c.textContent || '').trim(); });
+    }
 
     document.querySelectorAll<HTMLButtonElement>('#bfTypeGroup .slot').forEach(function (b) {
       b.addEventListener('click', function () {
@@ -86,41 +109,77 @@
       });
     });
 
-    sendBtn.addEventListener('click', function () {
+    function zeigeBestaetigung(hinweisCode: string | null): void {
       stageForm.classList.add('hidden');
-      stageSlot.classList.remove('hidden');
-      stageSlot.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
-
-    document.querySelectorAll<HTMLButtonElement>('#bfSlots .slot').forEach(function (s) {
-      s.addEventListener('click', function () {
-        document.querySelectorAll('#bfSlots .slot').forEach(function (o) {
-          o.setAttribute('aria-pressed', 'false');
-        });
-        s.setAttribute('aria-pressed', 'true');
-        chosenSlot = s.firstChild!.textContent!.trim();
-        slotBtn.disabled = false;
-      });
-    });
-
-    slotBtn.addEventListener('click', function () {
-      stageSlot.classList.add('hidden');
       stageDone.classList.remove('hidden');
-      doneTxt.textContent =
-        'Danke für deine Bewerbung! Dein Termin am ' + chosenSlot + ' ist vorgemerkt – wir melden uns persönlich bei dir.';
+      doneHinweis.classList.toggle('hidden', !hinweisCode);
       stageDone.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function zeigeSendeFehler(): void {
+      sendBtn.disabled = false;
+      sendBtn.textContent = sendBtnLabel;
+      sendError.classList.remove('hidden');
+    }
+
+    sendBtn.addEventListener('click', function () {
+      formError.classList.add('hidden');
+      sendError.classList.add('hidden');
+      var name = feldWert('bfName');
+      var email = feldWert('bfMail');
+      var typ = document.querySelector('#bfTypeGroup .slot[aria-pressed="true"]');
+      var regionen = ausgewaehlteChips('bewerbungChips');
+      var datenschutz = document.getElementById('bfDatenschutz') as HTMLInputElement;
+      if (!name || !email || !typ || regionen.length === 0 || !datenschutz.checked) {
+        formError.textContent = 'Bitte Name, E-Mail, „Ich bin", mindestens eine Region angeben und der Datenschutzerklärung zustimmen.';
+        formError.classList.remove('hidden');
+        return;
+      }
+
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Wird gesendet…';
+
+      var endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT;
+      var bestehenderBetrieb = typ.getAttribute('data-value') || '';
+      if (!endpoint) {
+        zeigeBestaetigung(null);
+        return;
+      }
+
+      var formData = new FormData();
+      formData.append('formular', 'franchise');
+      formData.append('name', name);
+      formData.append('firma', feldWert('bfFirma'));
+      formData.append('email', email);
+      formData.append('telefon', feldWert('bfTel'));
+      formData.append('plz', feldWert('bfPlz'));
+      formData.append('bestehender_betrieb', bestehenderBetrieb);
+      formData.append('datenschutz', datenschutz.checked ? '1' : '');
+      formData.append('_gotcha', feldWert('bfGotcha'));
+      formData.append('_ts', tsField.value);
+      regionen.forEach(function (r) { formData.append('regionen[]', r); });
+
+      fetch(endpoint, { method: 'POST', body: formData })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data && data.ok) {
+            zeigeBestaetigung(data.hinweis || null);
+          } else {
+            zeigeSendeFehler();
+          }
+        })
+        .catch(function () {
+          zeigeSendeFehler();
+        });
     });
 
     resetBtn.addEventListener('click', function () {
       stageDone.classList.add('hidden');
       stageForm.classList.remove('hidden');
-      slotBtn.disabled = true;
-      chosenSlot = null;
-      document.querySelectorAll('#bfSlots .slot').forEach(function (o) {
-        o.setAttribute('aria-pressed', 'false');
-      });
-      var regionen = document.getElementById('regionen');
-      if (regionen) regionen.scrollIntoView({ behavior: 'smooth' });
+      sendBtn.disabled = false;
+      sendBtn.textContent = sendBtnLabel;
+      var regionenSection = document.getElementById('regionen');
+      if (regionenSection) regionenSection.scrollIntoView({ behavior: 'smooth' });
     });
   })();
 </script>
