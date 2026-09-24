@@ -31,11 +31,12 @@ const firmenbuchZeilen = zeilenBlock([
         <div class="legal-section">
           <h3 class="display">Diensteanbieter</h3>
           <p>
-            {brand.company.legalName}<br>
+            {brand.company.legalName} i. G.<br>
             {brand.company.street}<br>
             {brand.company.postalCode} {brand.company.city}<br>
             {brand.company.country}
           </p>
+          <p>23.09.2026: Die {brand.company.legalName} befindet sich zum heutigen Zeitpunkt in der Gründungsphase. Fehlende Angaben, wie Firmenbuchnummer, Steuernummer, werden nachgereicht, sobald diese vorliegen.</p>
           {firmenbuchZeilen.length > 0 && (
             <p>
               {firmenbuchZeilen.map((zeile, i) => (
