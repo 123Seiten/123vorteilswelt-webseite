@@ -557,7 +557,6 @@ footer a:hover{color:var(--brand)}
 .verdienst .v-result{margin-top:8px;background:var(--ink);color:var(--white);border-top:0;padding:14px 16px}
 .verdienst .v-result span:first-child{font-weight:700}
 .verdienst .v-result .num{color:var(--savings-on-dark);font-family:'Big Shoulders Display','Inter',sans-serif;font-size:1.6rem;font-weight:800;line-height:1}
-.v-note{font-size:.78rem;color:var(--grey-500);margin-top:14px;max-width:640px;line-height:1.5}
 
 /* Franchise-Hero: 9:16-Video */
 .hero-video{position:relative;width:100%;max-width:300px;margin:0 auto}
