@@ -566,3 +566,22 @@ footer a:hover{color:var(--brand)}
 .vbtn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.10);color:#fff;border-radius:100px;font-size:.82rem;font-weight:600;cursor:pointer}
 .vbtn:hover{background:rgba(255,255,255,.20)}
 .vbtn:focus-visible{outline:3px solid var(--brand-on-dark);outline-offset:2px}
+
+/* Verdienst: Tabelle + Rechenbasis-Kasten nebeneinander */
+.verdienst-grid{display:grid;grid-template-columns:1fr;gap:32px;align-items:start;margin-top:26px}
+@media(min-width:980px){
+  .verdienst-grid{grid-template-columns:minmax(0,640px) minmax(260px,360px)}
+}
+.verdienst-grid .verdienst{margin-top:0}
+
+.rechenbasis{
+  background:var(--grey-100,#f3f4f6);
+  border-radius:10px;
+  padding:22px 24px;
+  font-size:.9rem;
+  line-height:1.55;
+  color:var(--grey-700,#3a3d42);
+}
+.rechenbasis .rb-title{font-weight:700;color:var(--ink,#111315);margin:0 0 8px}
+.rechenbasis p{margin:0 0 10px}
+.rechenbasis .rb-disclaimer{font-size:.75rem;color:var(--grey-500,#6b7076);margin:12px 0 0;line-height:1.5}
