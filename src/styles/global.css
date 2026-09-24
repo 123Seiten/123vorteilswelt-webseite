@@ -251,12 +251,6 @@ header{
   .sheet-arrow-mob{display:block;position:absolute;right:2px;top:30px;width:72px;height:auto;pointer-events:none}
 }
 
-/* ---------- Trust bar ---------- */
-.trust{border-top:1px solid var(--grey-150);border-bottom:1px solid var(--grey-150);background:var(--grey-100)}
-.trust-in{display:flex;flex-wrap:wrap;gap:14px 34px;align-items:center;justify-content:center;padding-block:18px}
-.trust-in div{display:flex;align-items:center;gap:9px;font-size:.83rem;color:var(--grey-700);font-weight:500}
-.trust-in svg{width:17px;height:17px;flex:0 0 auto;color:var(--brand)}
-
 /* ---------- Problem ---------- */
 .pain{display:grid;gap:14px;margin-top:34px}
 @media(min-width:760px){.pain{grid-template-columns:1fr 1fr;gap:16px 28px}}
