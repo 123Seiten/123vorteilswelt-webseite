@@ -22,19 +22,25 @@ import HintergrundBild from './HintergrundBild.astro';
 
     <div class="sheet" aria-label="Beispielhafte Kostenaufstellung">
       <div class="sheet-head">
-        <strong>Kostenblatt</strong>
+        <strong>Ihr Einsparpotenzial</strong>
         <span>Beispiel</span>
       </div>
-      <div class="row"><span class="k">Strom &amp; Gas</span><span class="dots"></span><span class="v num">8.400 €</span><span class="v2 num">6.700 €</span></div>
-      <div class="row"><span class="k">Versicherungen</span><span class="dots"></span><span class="v num">6.200 €</span><span class="v2 num">5.100 €</span></div>
-      <div class="row"><span class="k">Fuhrpark</span><span class="dots"></span><span class="v num">14.900 €</span><span class="v2 num">13.200 €</span></div>
-      <div class="row"><span class="k">Telekommunikation</span><span class="dots"></span><span class="v num">2.100 €</span><span class="v2 num">1.450 €</span></div>
-      <div class="row"><span class="k">Material</span><span class="dots"></span><span class="v num">31.000 €</span><span class="v2 num">27.800 €</span></div>
+      <div class="row"><span class="k">Strom &amp; Gas</span><span class="dots"></span><span class="v num">37.500 €</span><span class="v2 num">30.750 €</span></div>
+      <div class="row"><span class="k">Versicherungen</span><span class="dots"></span><span class="v num">27.500 €</span><span class="v2 num">23.400 €</span></div>
+      <div class="row"><span class="k">Fuhrpark</span><span class="dots"></span><span class="v num">66.500 €</span><span class="v2 num">59.200 €</span></div>
+      <div class="row"><span class="k">Telekommunikation</span><span class="dots"></span><span class="v num">9.500 €</span><span class="v2 num">7.100 €</span></div>
+      <div class="row"><span class="k">Material</span><span class="dots"></span><span class="v num">139.000 €</span><span class="v2 num">125.100 €</span></div>
       <div class="sheet-total">
         <span>Ersparnis pro Jahr</span>
-        <strong class="num">9.350 €</strong>
+        <strong class="num">34.450 €</strong>
+        <svg class="sheet-arrow" viewBox="0 0 140 180" fill="none" aria-hidden="true">
+          <path d="M66 20 C 104 8, 130 48, 106 84 C 92 66, 70 80, 76 100 C 82 120, 108 116, 104 92 C 100 118, 92 132, 70 148"
+                stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-dasharray="5 5" fill="none"/>
+          <path d="M63 150 L 85 153 L 75 131 Z" fill="currentColor"/>
+        </svg>
+        <img class="sheet-arrow-mob" src={`${import.meta.env.BASE_URL}pfeil-einsparung.png`} alt="" aria-hidden="true" />
       </div>
-      <p class="sheet-foot">Beispielhafte Darstellung – Ihre tatsächlichen Zahlen ermitteln wir im Rahmen der Analyse.</p>
+      <p class="sheet-foot">Beispielkalkulation: Annahme: 700.000&nbsp;€ Jahresumsatz, 280.000&nbsp;€ Einkaufsvolumen (40&nbsp;%), Ersparnis 12,3&nbsp;%.<span class="hl">Bei einer angenommenen Umsatzrendite von 10&nbsp;% entsprechen 34.450&nbsp;€ Ersparnis rund 344.500&nbsp;€ zusätzlich zu generierenden Umsatz.</span></p>
     </div>
   </div>
 </section>
