@@ -167,7 +167,7 @@ header{
     background:linear-gradient(100deg, rgba(11,13,14,.90) 0%, rgba(11,13,14,.84) 30%, rgba(11,13,14,.62) 58%, rgba(11,13,14,.40) 100%);
   }
   .hero:has(.hero-video) .hero-bg-layer img{
-    filter:blur(4px);
+    filter:blur(1.6px);
     transform:scale(1.05);
   }
 }
