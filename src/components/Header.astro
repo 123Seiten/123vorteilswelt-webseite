@@ -5,7 +5,6 @@ interface Props {
   hideCta?: boolean;
   ctaLabel?: string;
   ctaHref?: string;
-  showPartnerLink?: boolean;
 }
 
 const base = import.meta.env.BASE_URL;
@@ -13,7 +12,6 @@ const {
   hideCta = false,
   ctaLabel = 'Analyse anfordern',
   ctaHref = `${base}#anfrage`,
-  showPartnerLink = false,
 } = Astro.props;
 ---
 <header>
@@ -34,7 +32,6 @@ const {
       <a href={`${base}#bereiche`}>Bereiche</a>
       <a href={`${base}#kosten`}>Kosten</a>
       <a href={`${base}#fragen`}>Fragen</a>
-      {showPartnerLink && <a href={`${base}franchise`} class="nav-partner-link">Partner werden</a>}
     </nav>
     <div class="header-actions">
       {!hideCta && <a class="btn btn--sm header-cta" href={ctaHref}>{ctaLabel}</a>}
@@ -48,7 +45,6 @@ const {
     <a href={`${base}#bereiche`}>Bereiche</a>
     <a href={`${base}#kosten`}>Kosten</a>
     <a href={`${base}#fragen`}>Fragen</a>
-    {showPartnerLink && <a href={`${base}franchise`} class="mobile-nav-partner-link">Partner werden</a>}
     {!hideCta && <a href={ctaHref} class="mobile-nav-cta">{ctaLabel}</a>}
   </nav>
 </header>

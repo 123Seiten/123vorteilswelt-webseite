@@ -80,10 +80,6 @@ header{
 .nav{display:none;gap:30px;align-items:center}
 .nav a{color:var(--grey-700);text-decoration:none;font-size:.9rem;font-weight:500}
 .nav a:hover{color:var(--brand)}
-.nav a.nav-partner-link{
-  color:var(--grey-500);margin-left:4px;padding-left:26px;border-left:1px solid var(--grey-300);
-}
-.nav a.nav-partner-link:hover{color:var(--brand)}
 @media(min-width:920px){.nav{display:flex}}
 
 /* ---------- Header actions / mobile menu ---------- */
@@ -125,8 +121,6 @@ header{
 }
 .mobile-nav a:first-child{border-top:0}
 .mobile-nav a:hover{color:var(--brand);background:var(--grey-100)}
-.mobile-nav a.mobile-nav-partner-link{color:var(--grey-500);font-size:.9rem}
-.mobile-nav a.mobile-nav-partner-link:hover{color:var(--brand)}
 .mobile-nav a.mobile-nav-cta{
   color:var(--white);background:var(--brand);text-align:center;font-weight:600;
   margin:12px 24px 16px;padding:14px 20px;border-radius:var(--r);border-top:0;

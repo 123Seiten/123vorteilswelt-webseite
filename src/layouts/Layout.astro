@@ -12,7 +12,6 @@ interface Props {
   ctaHref?: string;
   stickyCtaLabel?: string;
   stickyCtaHref?: string;
-  showPartnerLink?: boolean;
 }
 
 const base = import.meta.env.BASE_URL;
@@ -23,7 +22,6 @@ const {
   ctaHref = `${base}#bereiche`,
   stickyCtaLabel = 'Einkaufsanalyse anfordern',
   stickyCtaHref = `${base}#bereiche`,
-  showPartnerLink = false,
 } = Astro.props;
 ---
 
@@ -40,7 +38,7 @@ const {
 </head>
 <body>
 
-<Header hideCta={hideCta} ctaLabel={ctaLabel} ctaHref={ctaHref} showPartnerLink={showPartnerLink} />
+<Header hideCta={hideCta} ctaLabel={ctaLabel} ctaHref={ctaHref} />
 
 <slot />
 
