@@ -535,3 +535,22 @@ footer a:hover{color:var(--brand)}
   *{animation:none!important;transition:none!important}
   html{scroll-behavior:auto}
 }
+
+/* Verdienstmöglichkeiten (Franchise) */
+.verdienst{max-width:640px;margin-top:26px}
+.verdienst .v-group{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--grey-500);font-weight:700;margin:18px 0 6px}
+.verdienst .v-row{display:flex;justify-content:space-between;gap:16px;align-items:baseline;padding:9px 0;border-top:1px dotted var(--grey-300);font-size:.95rem;color:var(--grey-700)}
+.verdienst .v-row .num{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.verdienst .v-sum{font-weight:700;color:var(--ink)}
+.verdienst .v-result{margin-top:8px;background:var(--ink);color:var(--white);border-top:0;padding:14px 16px}
+.verdienst .v-result span:first-child{font-weight:700}
+.verdienst .v-result .num{color:var(--savings-on-dark);font-family:'Big Shoulders Display','Inter',sans-serif;font-size:1.6rem;font-weight:800;line-height:1}
+.v-note{font-size:.78rem;color:var(--grey-500);margin-top:14px;max-width:640px;line-height:1.5}
+
+/* Franchise-Hero: 9:16-Video */
+.hero-video{position:relative;width:100%;max-width:300px;margin:0 auto}
+.hero-video-el{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:6px;background:#000;box-shadow:0 24px 60px -30px rgba(0,0,0,.7)}
+.hero-video-ctrls{display:flex;gap:10px;justify-content:center;margin-top:12px}
+.vbtn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.10);color:#fff;border-radius:100px;font-size:.82rem;font-weight:600;cursor:pointer}
+.vbtn:hover{background:rgba(255,255,255,.20)}
+.vbtn:focus-visible{outline:3px solid var(--brand-on-dark);outline-offset:2px}

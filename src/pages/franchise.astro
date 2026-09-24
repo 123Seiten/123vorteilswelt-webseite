@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import TileSelect from '../components/TileSelect.astro';
 import FranchiseBewerbung from '../components/FranchiseBewerbung.astro';
+import HintergrundBild from '../components/HintergrundBild.astro';
 import { brand } from '../config/brand';
 
 const base = import.meta.env.BASE_URL;
@@ -29,6 +30,8 @@ const regionen = [
 
   <!-- HERO — Die Idee -->
   <section class="hero">
+    <HintergrundBild eintrag="franchise-hero-bg" class="hero-bg-layer" loading="eager" />
+    <div class="hero-bg-overlay" aria-hidden="true"></div>
     <div class="wrap hero-grid">
       <div>
         <p class="eyebrow">Die Idee</p>
@@ -51,12 +54,15 @@ const regionen = [
         </div>
       </div>
 
-      <div class="photo">
-        <img
-          src={`${base}placeholders/franchise-hero.svg`}
-          alt="Platzhalter: Franchise-Partnerin oder -Partner im Gespräch mit einer Unternehmerin, Notebook und Unterlagen auf dem Tisch"
-          width="800" height="1000"
-        >
+      <div class="hero-video">
+        <video id="franchiseVid" class="hero-video-el" playsinline autoplay muted loop preload="metadata"
+               poster={`${base}video/franchise-partner-poster.jpg`}>
+          <source src={`${base}video/franchise-partner.mp4`} type="video/mp4" />
+        </video>
+        <div class="hero-video-ctrls">
+          <button type="button" class="vbtn" id="vSound" aria-pressed="false" aria-label="Ton einschalten"><span class="vlabel">Ton an</span></button>
+          <button type="button" class="vbtn" id="vRestart" aria-label="Video neu starten"><span class="vlabel">Neu starten</span></button>
+        </div>
       </div>
     </div>
   </section>
@@ -209,22 +215,45 @@ const regionen = [
       <div class="terms">
         <div>
           <p class="lbl">Einstiegsgebühr</p>
-          <p class="val">[wird ergänzt]</p>
+          <p class="val">40.000 €</p>
         </div>
         <div>
-          <p class="lbl">Laufende Franchisegebühr</p>
-          <p class="val">[wird ergänzt]</p>
+          <p class="lbl">Laufende Franchisegebühr (vom Nettoumsatz)</p>
+          <p class="val">6 %</p>
         </div>
         <div>
-          <p class="lbl">Marketingbeitrag</p>
-          <p class="val">[wird ergänzt]</p>
+          <p class="lbl">Marketingbeitrag (vom Nettoumsatz)</p>
+          <p class="val">3 %</p>
         </div>
       </div>
 
       <p class="terms-note">
-        <b>Weitere Investitionen:</b> [Platzhalter – bei 123Vorteilswelt voraussichtlich schlank, z.&nbsp;B.
-        Software-/Systemzugang, Büro- oder Homeoffice-Ausstattung, ggf. Fahrzeug.]
+        <b>Weitere Investitionen:</b> überschaubar – z.&nbsp;B. Software-/Systemzugang, Büro- oder Homeoffice-Ausstattung und ggf. ein Fahrzeug.
       </p>
+    </div>
+  </section>
+
+  <!-- VERDIENSTMÖGLICHKEITEN -->
+  <section class="band reveal" id="verdienst">
+    <div class="wrap">
+      <div class="rule"></div>
+      <p class="eyebrow">Als Franchise-Partner</p>
+      <h2 class="display">Verdienstmöglichkeiten</h2>
+      <p class="lead">Ein Rechenbeispiel für ein eingeschwungenes Jahr – konservativ gerechnet, auf Basis von rund 4 betreuten Kunden und 10 Analysen pro Monat.</p>
+      <div class="verdienst">
+        <p class="v-group">Umsatz</p>
+        <div class="v-row"><span>Provisionsumsatz (48 Kunden × 10.335 €)</span><span class="num">496.080 €</span></div>
+        <div class="v-row"><span>Analysegebühren (120 × 290 €)</span><span class="num">34.800 €</span></div>
+        <div class="v-row v-sum"><span>Nettojahresumsatz</span><span class="num">530.880 €</span></div>
+        <p class="v-group">Kosten</p>
+        <div class="v-row"><span>Betriebsbedarf (Büro, Telekommunikation, IT)</span><span class="num">24.000 €</span></div>
+        <div class="v-row"><span>Leasing (Fahrzeug)</span><span class="num">15.000 €</span></div>
+        <div class="v-row"><span>Franchisegebühr (6 %)</span><span class="num">31.853 €</span></div>
+        <div class="v-row"><span>Marketingbeitrag (3 %)</span><span class="num">15.926 €</span></div>
+        <div class="v-row v-sum"><span>Gesamtkosten</span><span class="num">86.779 €</span></div>
+        <div class="v-row v-result"><span>Betriebsergebnis vor Steuer</span><span class="num">444.101 €</span></div>
+      </div>
+      <p class="v-note">Konservativ gerechnet: alle Kunden mit der Erstjahres-Provision (30 %). Ab dem zweiten Jahr kommen die wiederkehrenden 10 % aus den Kunden der Vorjahre hinzu. Beispielrechnung mit ungefähren Werten – Details im Businessplan, keine Ertragsgarantie.</p>
     </div>
   </section>
 
@@ -253,3 +282,17 @@ const regionen = [
   <FranchiseBewerbung />
 
 </Layout>
+
+<script>
+  const v = document.getElementById('franchiseVid');
+  const s = document.getElementById('vSound');
+  const r = document.getElementById('vRestart');
+  if (v && s) s.addEventListener('click', () => {
+    v.muted = !v.muted;
+    s.setAttribute('aria-pressed', String(!v.muted));
+    s.querySelector('.vlabel').textContent = v.muted ? 'Ton an' : 'Ton aus';
+    s.setAttribute('aria-label', v.muted ? 'Ton einschalten' : 'Ton ausschalten');
+    if (!v.muted) v.play?.();
+  });
+  if (v && r) r.addEventListener('click', () => { v.currentTime = 0; v.play?.(); });
+</script>

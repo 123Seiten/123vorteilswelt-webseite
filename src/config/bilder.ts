@@ -35,6 +35,13 @@ export const BILDER = {
     quelle: 'Canva',
     kiGeneriert: false,
   },
+  'franchise-hero-bg': {
+    datei: 'franchise-hero-bg.jpg',
+    alt: '',
+    beschreibung: 'Hero-Hintergrund Franchise-Seite (Kundenlager)',
+    quelle: 'Canva Pro',
+    kiGeneriert: false,
+  },
 } as const satisfies Record<string, BildEintrag>;
 
 export type BildKey = keyof typeof BILDER;
@@ -51,4 +58,5 @@ export function getBild(eintrag: BildKey): BildEintrag {
 /** Bekannte Lizenz-/Rechte-Hinweise pro Quelle für die Bildquellen-Auflistung im Impressum. */
 export const BILDQUELLEN_LIZENZ: Record<string, string> = {
   Canva: 'Canva-Inhaltslizenz',
+  'Canva Pro': 'Nutzungsrechte Canva Pro',
 };
