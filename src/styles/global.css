@@ -160,6 +160,17 @@ header{
 .hero-bg-overlay{position:absolute;inset:0;z-index:0;
   background:linear-gradient(100deg, rgba(11,13,14,.86) 0%, rgba(11,13,14,.78) 30%, rgba(11,13,14,.52) 58%, rgba(11,13,14,.28) 100%);}
 .hero .wrap{position:relative;z-index:1}
+
+/* Franchise-Hero (mit Video): Hintergrund auf Desktop stärker abgedunkelt + leicht geblurrt */
+@media(min-width:900px){
+  .hero:has(.hero-video) .hero-bg-overlay{
+    background:linear-gradient(100deg, rgba(11,13,14,.90) 0%, rgba(11,13,14,.84) 30%, rgba(11,13,14,.62) 58%, rgba(11,13,14,.40) 100%);
+  }
+  .hero:has(.hero-video) .hero-bg-layer img{
+    filter:blur(4px);
+    transform:scale(1.05);
+  }
+}
 .hero-grid{display:grid;gap:44px;align-items:center}
 @media(min-width:900px){.hero-grid{grid-template-columns:1.15fr .85fr;gap:56px}}
 .hero h1{margin-bottom:1.4rem}
@@ -549,7 +560,7 @@ footer a:hover{color:var(--brand)}
 
 /* Franchise-Hero: 9:16-Video */
 .hero-video{position:relative;width:100%;max-width:300px;margin:0 auto}
-.hero-video-el{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:6px;background:#000;box-shadow:0 24px 60px -30px rgba(0,0,0,.7)}
+.hero-video-el{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:10px;background:#000;box-shadow:0 24px 60px -30px rgba(0,0,0,.7);border:15px solid rgba(255,255,255,.85)}
 .hero-video-ctrls{display:flex;gap:10px;justify-content:center;margin-top:12px}
 .vbtn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.10);color:#fff;border-radius:100px;font-size:.82rem;font-weight:600;cursor:pointer}
 .vbtn:hover{background:rgba(255,255,255,.20)}
