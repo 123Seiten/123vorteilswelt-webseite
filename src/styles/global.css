@@ -155,7 +155,8 @@ header{
 .hero-bg-layer img{width:100%;height:100%;object-fit:cover}
 .hero-bg-layer.bild-wrap img,
 .bild-wrap.hero-bg-layer img{height:100%;object-fit:cover}
-.hero-bg-overlay{position:absolute;inset:0;z-index:0;background:rgba(255,255,255,.86)}
+.hero-bg-overlay{position:absolute;inset:0;z-index:0;
+  background:linear-gradient(100deg, rgba(11,13,14,.86) 0%, rgba(11,13,14,.78) 30%, rgba(11,13,14,.52) 58%, rgba(11,13,14,.28) 100%);}
 .hero .wrap{position:relative;z-index:1}
 .hero-grid{display:grid;gap:44px;align-items:center}
 @media(min-width:900px){.hero-grid{grid-template-columns:1.15fr .85fr;gap:56px}}
@@ -169,6 +170,23 @@ header{
   border:1px solid var(--grey-300);border-radius:100px;padding:7px 15px;background:var(--white);
 }
 .fact b{color:var(--brand);font-weight:700}
+
+/* Dunkler Hero – nur dort, wo tatsächlich ein Hintergrundfoto liegt (.hero-bg-layer).
+   Die Franchise-Seite teilt sich die .hero-Klasse, hat aber kein Foto/Overlay und
+   bleibt dadurch unangetastet beim ursprünglichen hellen Look. */
+.hero:has(.hero-bg-layer){background:#0b0d0e}
+.hero:has(.hero-bg-layer) h1 em{color:var(--savings-on-dark)}
+.hero:has(.hero-bg-layer) .hero-sub{color:#eceff2}
+.hero:has(.hero-bg-layer) .eyebrow{color:var(--brand-on-dark)}
+.hero:has(.hero-bg-layer) h1{color:#fff}
+.hero:has(.hero-bg-layer) .btn-note{color:#c9ced3}
+.hero:has(.hero-bg-layer) .fact{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);color:#e9ebed}
+.hero:has(.hero-bg-layer) .fact b{color:var(--savings-on-dark)}
+
+/* Mobile: gleichmäßig dunkles Overlay, damit der volle-Breite-Text gut lesbar bleibt */
+@media (max-width:899px){
+  .hero-bg-overlay{background:linear-gradient(180deg, rgba(11,13,14,.72) 0%, rgba(11,13,14,.86) 100%);}
+}
 
 /* Hero visual: Kostenblatt */
 .sheet{
