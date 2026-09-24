@@ -60,12 +60,20 @@ h3.display{font-size:clamp(1.35rem,2.4vw,1.7rem)}
 .rule{width:56px;height:4px;background:var(--brand);margin-bottom:1.5rem}
 .rule.on-dark{background:var(--brand)}
 
+/* ---------- Subheader (schwarzer Balken über dem Hauptmenü) ---------- */
+.subheader{background:var(--ink);color:#e6e8ea}
+.subheader-in{display:flex;justify-content:center;align-items:center;gap:24px;min-height:40px;font-size:.82rem;line-height:1.3}
+.subheader-claim{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 18px;min-width:0;margin:0;padding:0;list-style:none}
+.subheader-claim li{display:flex;align-items:center;white-space:nowrap}
+.subheader-claim li+li::before{content:"·";color:#6c7278;margin-right:18px}
+@media(max-width:599px){.subheader-in{min-height:34px}}
+
 /* ---------- Header ---------- */
 header{
   position:sticky;top:0;z-index:60;background:rgba(255,255,255,.94);
-  backdrop-filter:blur(8px);border-bottom:1px solid var(--grey-150);
+  backdrop-filter:blur(8px);border-bottom:4px solid var(--brand);
 }
-.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:74px}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:74px;padding-block:20px}
 .logo{display:flex;align-items:center;text-decoration:none;color:var(--ink);min-width:0;flex-shrink:1}
 .logo-img{height:44px;width:auto;max-width:100%;display:block}
 @media(min-width:480px){.logo-img{height:70px}}
