@@ -42,6 +42,13 @@ export const BILDER = {
     quelle: 'Canva Pro',
     kiGeneriert: false,
   },
+  'wer-zu-uns-passt': {
+    datei: 'Wer_zu_uns_passt_vorteilswelt.jpg',
+    alt: 'Zwei Geschäftsleute beim Handschlag, Team im Hintergrund',
+    beschreibung: 'Wer zu uns passt – Franchise-Seite',
+    quelle: 'Canva Pro',
+    kiGeneriert: false,
+  },
 } as const satisfies Record<string, BildEintrag>;
 
 export type BildKey = keyof typeof BILDER;
