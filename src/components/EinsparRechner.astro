@@ -123,6 +123,9 @@ const KONTAKT_HREF = `${base}#anfrage`;
 
 <script>
   const overlay = document.querySelector('[data-er-overlay]')!;
+  // An document.body hängen: verhindert, dass ein z-index-Stacking-Context eines
+  // Vorfahren (z. B. .hero .wrap) den Overlay unter den sticky Header (z-index:60) fallen lässt.
+  document.body.appendChild(overlay);
   const trigger = document.querySelector('[data-er-open]')!;
   const selects = [...overlay.querySelectorAll('[data-er-sparte]')] as HTMLSelectElement[];
   const inputs  = [...overlay.querySelectorAll('[data-er-input]')] as HTMLInputElement[];
