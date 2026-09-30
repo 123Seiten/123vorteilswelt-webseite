@@ -1,0 +1,185 @@
+---
+const SPARTEN = [
+  "Strom & Gas","Versicherungen","Fuhrpark & Leasing","Weiterbildung",
+  "Material & Rohstoffe","Maschinen","Büroausstattung","Telekommunikation",
+  "Werbung & Marketing","Steuerberatung","Bankgebühren","Entsorgung"
+];
+const DEFAULTS = [
+  "Strom & Gas","Versicherungen","Fuhrpark & Leasing","Telekommunikation","Material & Rohstoffe"
+];
+
+const base = import.meta.env.BASE_URL;
+// Direktlink zum Anfrageformular-Abschnitt selbst (id="anfrage" in AnfrageFormular.astro) —
+// bewusst NICHT das Ziel des Header-Buttons "Analyse anfordern" (das ist #bereiche, die
+// Zwischensektion "Wo kaufen Sie ein?"). Dieser Zwischenschritt wird hier übersprungen.
+const KONTAKT_HREF = `${base}#anfrage`;
+---
+
+<button type="button" class="er-trigger" data-er-open>
+  Berechnen Sie jetzt Ihr Einsparpotenzial
+</button>
+
+<div class="er-overlay" data-er-overlay hidden>
+  <div class="er-modal" role="dialog" aria-modal="true" aria-labelledby="er-title">
+    <button type="button" class="er-close" data-er-close aria-label="Schließen">×</button>
+
+    <p class="er-eyebrow">Selbsttest</p>
+    <h2 id="er-title" class="er-title">Berechnen Sie Ihr Einsparpotenzial</h2>
+    <p class="er-hint">Tragen Sie Ihre ungefähren <strong>Jahresausgaben</strong> je Sparte ein
+      (ohne Kommastellen). Jede Zeile lässt sich per Dropdown auf eine andere Sparte umstellen.</p>
+
+    <div class="er-rows">
+      {DEFAULTS.map((def, i) => (
+        <div class="er-row">
+          <select class="er-sparte" data-er-sparte aria-label={`Sparte ${i + 1}`}>
+            {SPARTEN.map((s) => (
+              <option value={s} selected={s === def}>{s}</option>
+            ))}
+          </select>
+          <div class="er-val">
+            <span class="er-val-label">Sparte auswählen</span>
+            <input class="er-input" data-er-input inputmode="numeric" autocomplete="off"
+                   aria-label={`Jahresausgaben Sparte ${i + 1}`} value="0" />
+            <span class="er-eur">€</span>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <button type="button" class="er-calc" data-er-calc disabled>Potenzial berechnen</button>
+
+    <div class="er-result" data-er-result hidden>
+      <div class="er-resultbox">
+        <span class="er-result-label">Ersparnis pro Jahr</span>
+        <span class="er-result-num" data-er-ersparnis>0 €</span>
+      </div>
+      <p class="er-result-sentence">
+        Ihr Unternehmen müsste um <strong data-er-umsatz>0 €</strong> mehr Umsatz machen,
+        um das zu erreichen (10 % Umsatzrendite angenommen).
+      </p>
+      <a class="er-cta" data-er-cta href={KONTAKT_HREF}>Jetzt gemeinsam umsetzen</a>
+      <button type="button" class="er-reset" data-er-reset>neu berechnen</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .er-trigger{display:block;width:100%;margin-top:14px;padding:14px 18px;border:0;border-radius:8px;
+    background:var(--brand,#139e1c);color:#fff;font-weight:700;font-size:1rem;cursor:pointer}
+  .er-trigger:hover{filter:brightness(.95)}
+
+  .er-overlay{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.6);
+    display:flex;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto}
+  .er-modal{position:relative;background:#fff;border-radius:14px;max-width:520px;width:100%;
+    margin:auto;padding:28px 26px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+  .er-close{position:absolute;top:10px;right:14px;border:0;background:none;font-size:1.8rem;
+    line-height:1;color:#555;cursor:pointer}
+  .er-eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brand,#139e1c);font-weight:700;margin:0}
+  .er-title{font-size:1.5rem;margin:.2em 0 .4em}
+  .er-hint{font-size:.85rem;color:#555;margin:0 0 18px;line-height:1.5}
+
+  .er-rows{display:flex;flex-direction:column;gap:10px}
+  .er-row{display:grid;grid-template-columns:1fr 150px;gap:10px;align-items:center}
+  .er-sparte{padding:10px 12px;border:1px solid #d0d3d7;border-radius:8px;font-size:.9rem;background:#fff}
+  .er-val{display:flex;align-items:center;gap:6px;border:1px solid #d0d3d7;border-radius:8px;padding:0 12px}
+  .er-val-label{display:none} /* optional einblenden, siehe Hinweis */
+  .er-input{border:0;outline:0;width:100%;text-align:right;padding:10px 0;font-size:.95rem;font-variant-numeric:tabular-nums}
+  .er-eur{color:#555}
+
+  .er-calc{margin-top:18px;width:100%;padding:14px;border:0;border-radius:8px;
+    background:var(--brand,#139e1c);color:#fff;font-weight:700;font-size:1rem;cursor:pointer}
+  .er-calc:disabled{background:#c4c8cc;cursor:not-allowed}
+
+  .er-result{margin-top:20px}
+  .er-resultbox{display:flex;justify-content:space-between;align-items:center;
+    background:var(--ink,#0b0d0e);border-radius:8px;padding:16px 18px}
+  .er-result-label{color:#c9ced3;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+  .er-result-num{color:var(--savings-on-dark,#4ade55);font-weight:800;font-size:1.7rem;line-height:1;
+    font-variant-numeric:tabular-nums}
+  .er-result-sentence{color:var(--brand,#139e1c);font-weight:700;font-size:.9rem;margin:14px 0 0;line-height:1.5}
+  .er-cta{display:block;text-align:center;margin-top:18px;padding:14px;border-radius:8px;
+    background:var(--brand,#139e1c);color:#fff;font-weight:700;text-decoration:none}
+  .er-reset{display:block;margin:10px auto 0;border:0;background:none;color:#777;font-size:.8rem;
+    text-decoration:underline;cursor:pointer}
+
+  @media(max-width:560px){
+    .er-overlay{padding:0}
+    .er-modal{border-radius:0;min-height:100vh;max-width:none}
+    .er-row{grid-template-columns:1fr 120px}
+  }
+</style>
+
+<script>
+  const overlay = document.querySelector('[data-er-overlay]')!;
+  const trigger = document.querySelector('[data-er-open]')!;
+  const selects = [...overlay.querySelectorAll('[data-er-sparte]')] as HTMLSelectElement[];
+  const inputs  = [...overlay.querySelectorAll('[data-er-input]')] as HTMLInputElement[];
+  const calcBtn = overlay.querySelector('[data-er-calc]') as HTMLButtonElement;
+  const result  = overlay.querySelector('[data-er-result]') as HTMLElement;
+  const outErsp = overlay.querySelector('[data-er-ersparnis]')!;
+  const outUms  = overlay.querySelector('[data-er-umsatz]')!;
+  const fmt = (n: number) => n.toLocaleString('de-DE') + ' €';
+  const num = (el: HTMLInputElement) => parseInt((el.value || '').replace(/\D/g, ''), 10) || 0;
+
+  // Eingabe live als Tausender formatieren, nur Ziffern
+  inputs.forEach((el) => {
+    el.addEventListener('input', () => {
+      const digits = el.value.replace(/\D/g, '');
+      el.value = digits ? parseInt(digits, 10).toLocaleString('de-DE') : '0';
+      hideResult(); refreshCalc();
+    });
+    el.addEventListener('focus', () => { if (num(el) === 0) el.select(); });
+  });
+
+  // Doppelauswahl verhindern: bereits gewählte Sparten in anderen Dropdowns deaktivieren
+  function refreshOptions() {
+    const chosen = selects.map((s) => s.value);
+    selects.forEach((sel) => {
+      [...sel.options].forEach((opt) => {
+        opt.disabled = chosen.includes(opt.value) && sel.value !== opt.value;
+      });
+    });
+  }
+  selects.forEach((s) => s.addEventListener('change', () => { refreshOptions(); hideResult(); }));
+
+  function refreshCalc() {
+    calcBtn.disabled = !inputs.every((el) => num(el) > 0);
+  }
+  function hideResult() { result.hidden = true; }
+
+  calcBtn.addEventListener('click', () => {
+    const summe = inputs.reduce((a, el) => a + num(el), 0);
+    const ersparnis = Math.round(summe * 0.123);
+    const umsatz = ersparnis * 10;
+    outErsp.textContent = fmt(ersparnis);
+    outUms.textContent  = fmt(umsatz);
+    result.hidden = false;
+    result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  overlay.querySelector('[data-er-reset]')!.addEventListener('click', () => {
+    inputs.forEach((el) => (el.value = '0'));
+    hideResult(); refreshCalc();
+    inputs[0].focus();
+  });
+
+  // Popup öffnen/schließen
+  let lastFocused: HTMLElement | null = null;
+  function open() {
+    lastFocused = document.activeElement as HTMLElement;
+    overlay.hidden = false;
+    document.body.style.overflow = 'hidden';
+    refreshOptions(); refreshCalc();
+    selects[0].focus();
+  }
+  function close() {
+    overlay.hidden = true;
+    document.body.style.overflow = '';
+    if (lastFocused) lastFocused.focus();
+  }
+  trigger.addEventListener('click', open);
+  overlay.querySelector('[data-er-cta]')!.addEventListener('click', close); // Popup schließen, dann zum Formular springen
+  overlay.querySelector('[data-er-close]')!.addEventListener('click', close);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !overlay.hidden) close(); });
+</script>
