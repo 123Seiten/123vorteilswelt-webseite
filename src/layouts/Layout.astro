@@ -48,6 +48,20 @@ const {
 
 <script>
   (function () {
+    // Tatsächliche Höhe des sticky Headers messen und als CSS-Variable bereitstellen,
+    // damit Anker-Sprünge (scroll-padding-top) den Header nicht überdecken.
+    var header = document.querySelector('header');
+    if (!header) return;
+    function setHeaderHeight() {
+      document.documentElement.style.setProperty('--header-h', header!.offsetHeight + 'px');
+    }
+    setHeaderHeight();
+    window.addEventListener('resize', setHeaderHeight);
+  })();
+</script>
+
+<script>
+  (function () {
     var els = document.querySelectorAll('.reveal');
     if (!els.length) return;
 
