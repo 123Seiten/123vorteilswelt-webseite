@@ -1,4 +1,6 @@
 ---
+import InhaltsBild from './InhaltsBild.astro';
+
 const SPARTEN = [
   "Strom & Gas","Versicherungen","Fuhrpark & Leasing","Weiterbildung",
   "Material & Rohstoffe","Maschinen","Büroausstattung","Telekommunikation",
@@ -23,47 +25,53 @@ const KONTAKT_HREF = `${base}#anfrage`;
   <div class="er-modal" role="dialog" aria-modal="true" aria-labelledby="er-title">
     <button type="button" class="er-close" data-er-close aria-label="Schließen">×</button>
 
-    <p class="er-eyebrow">Selbsttest</p>
-    <h2 id="er-title" class="er-title">Berechnen Sie Ihr Einsparpotenzial</h2>
-    <p class="er-hint">Tragen Sie Ihre ungefähren <strong>Jahresausgaben</strong> je Sparte ein
-      (ohne Kommastellen). Jede Zeile lässt sich per Dropdown auf eine andere Sparte umstellen.</p>
-
-    <div class="er-rows">
-      {DEFAULTS.map((def, i) => (
-        <div class="er-row">
-          <select class="er-sparte" data-er-sparte aria-label={`Sparte ${i + 1}`}>
-            {SPARTEN.map((s) => (
-              <option value={s} selected={s === def}>{s}</option>
-            ))}
-          </select>
-          <div class="er-val">
-            <span class="er-val-label">Sparte auswählen</span>
-            <input class="er-input" data-er-input inputmode="numeric" autocomplete="off"
-                   aria-label={`Jahresausgaben Sparte ${i + 1}`} value="0" />
-            <span class="er-eur">€</span>
-          </div>
-        </div>
-      ))}
+    <div class="er-photo-wrap">
+      <InhaltsBild eintrag="einsparrechner-illustration" width={500} height={248} loading="lazy" />
     </div>
 
-    <button type="button" class="er-calc" data-er-calc disabled>Potenzial berechnen</button>
+    <div class="er-modal-body">
+      <p class="er-eyebrow">Selbsttest</p>
+      <h2 id="er-title" class="er-title">Berechnen Sie Ihr Einsparpotenzial</h2>
+      <p class="er-hint">Tragen Sie Ihre ungefähren <strong>Jahresausgaben</strong> je Sparte ein
+        (ohne Kommastellen). Jede Zeile lässt sich per Dropdown auf eine andere Sparte umstellen.</p>
 
-    <div class="er-result" data-er-result hidden>
-      <div class="er-resultbox">
-        <span class="er-result-label">Ersparnis pro Jahr</span>
-        <span class="er-result-num" data-er-ersparnis>0 €</span>
+      <div class="er-rows">
+        {DEFAULTS.map((def, i) => (
+          <div class="er-row">
+            <select class="er-sparte" data-er-sparte aria-label={`Sparte ${i + 1}`}>
+              {SPARTEN.map((s) => (
+                <option value={s} selected={s === def}>{s}</option>
+              ))}
+            </select>
+            <div class="er-val">
+              <span class="er-val-label">Sparte auswählen</span>
+              <input class="er-input" data-er-input inputmode="numeric" autocomplete="off"
+                     aria-label={`Jahresausgaben Sparte ${i + 1}`} value="0" />
+              <span class="er-eur">€</span>
+            </div>
+          </div>
+        ))}
       </div>
-      <p class="er-result-sentence">
-        Ihr Unternehmen müsste um <strong data-er-umsatz>0 €</strong> mehr Umsatz machen,
-        um das zu erreichen (10 % Umsatzrendite angenommen).
-      </p>
-      <a class="er-cta" data-er-cta href={KONTAKT_HREF}>Jetzt gemeinsam umsetzen</a>
-      <button type="button" class="er-reset" data-er-reset>neu berechnen</button>
+
+      <button type="button" class="er-calc" data-er-calc disabled>Potenzial berechnen</button>
+
+      <div class="er-result" data-er-result hidden>
+        <div class="er-resultbox">
+          <span class="er-result-label">Ersparnis pro Jahr</span>
+          <span class="er-result-num" data-er-ersparnis>0 €</span>
+        </div>
+        <p class="er-result-sentence">
+          Ihr Unternehmen müsste um <strong data-er-umsatz>0 €</strong> mehr Umsatz machen,
+          um das zu erreichen (10 % Umsatzrendite angenommen).
+        </p>
+        <a class="er-cta" data-er-cta href={KONTAKT_HREF}>Jetzt gemeinsam umsetzen</a>
+        <button type="button" class="er-reset" data-er-reset>neu berechnen</button>
+      </div>
     </div>
   </div>
 </div>
 
-<style>
+<style define:vars={{ meshUrl: `url(${base}mesh.png)` }}>
   .er-trigger{display:block;width:100%;margin-top:14px;padding:14px 18px;border:0;border-radius:8px;
     background:var(--brand,#139e1c);color:#fff;font-weight:700;font-size:1rem;cursor:pointer}
   .er-trigger:hover{filter:brightness(.95)}
@@ -73,15 +81,18 @@ const KONTAKT_HREF = `${base}#anfrage`;
     opacity:0;transition:opacity .34s ease}
   .er-overlay:not([hidden]){display:flex}
   .er-overlay.is-open{opacity:1}
-  .er-modal{position:relative;background:#fff;border-radius:14px;max-width:520px;width:100%;
-    margin:auto;padding:28px 26px;box-shadow:0 20px 60px rgba(0,0,0,.35);
+  .er-modal{position:relative;background:#fff var(--meshUrl) no-repeat right -60px top -60px/340px;
+    border-radius:14px;max-width:520px;width:100%;margin:auto;overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
     transform:translateY(-48px);opacity:0;
     transition:transform .38s cubic-bezier(.22,.9,.35,1),opacity .3s ease}
   .er-overlay.is-open .er-modal{transform:translateY(0);opacity:1}
   .er-modal.is-leaving{transform:translateY(64px);opacity:0;
     transition:transform .3s ease-in,opacity .26s ease-in}
-  .er-close{position:absolute;top:10px;right:14px;border:0;background:none;font-size:1.8rem;
+  .er-modal-body{padding:28px 26px}
+  .er-close{position:absolute;top:10px;right:14px;z-index:1;border:0;background:none;font-size:1.8rem;
     line-height:1;color:#555;cursor:pointer}
+  .er-photo-wrap{display:none}
   .er-eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brand,#139e1c);font-weight:700;margin:0}
   .er-title{font-size:1.5rem;margin:.2em 0 .4em}
   .er-hint{font-size:.85rem;color:#555;margin:0 0 18px;line-height:1.5}
@@ -114,6 +125,10 @@ const KONTAKT_HREF = `${base}#anfrage`;
     .er-overlay{padding:0}
     .er-modal{border-radius:0;min-height:100vh;max-width:none}
     .er-row{grid-template-columns:1fr 120px}
+    .er-photo-wrap{display:block}
+    .er-close{background:rgba(255,255,255,.85);border-radius:50%;width:34px;height:34px;padding:0;
+      display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+    .er-title{line-height:1.3em}
   }
 
   @media(prefers-reduced-motion:reduce){

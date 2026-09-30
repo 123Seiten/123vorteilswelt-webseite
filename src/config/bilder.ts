@@ -49,6 +49,13 @@ export const BILDER = {
     quelle: 'Canva Pro',
     kiGeneriert: false,
   },
+  'einsparrechner-illustration': {
+    datei: 'einsparrechner-illustration.png',
+    alt: '',
+    beschreibung: 'Mobiler Header-Bild Einsparrechner-Popup',
+    quelle: 'Canva Pro',
+    kiGeneriert: false,
+  },
 } as const satisfies Record<string, BildEintrag>;
 
 export type BildKey = keyof typeof BILDER;
