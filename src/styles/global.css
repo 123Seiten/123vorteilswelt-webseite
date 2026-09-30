@@ -531,6 +531,7 @@ footer a:hover{color:var(--brand)}
 .reveal.is-visible{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){
   .reveal{opacity:1!important;transform:none!important;transition:none!important}
+  .sticky{transition:none}
 }
 
 /* ---------- Sticky mobile CTA ---------- */
@@ -538,7 +539,9 @@ footer a:hover{color:var(--brand)}
   position:fixed;left:0;right:0;bottom:0;z-index:70;background:var(--white);
   border-top:1px solid var(--grey-300);padding:11px 16px;
   box-shadow:0 -6px 22px -14px rgba(0,0,0,.5);
+  transform:translateY(120%);transition:transform .38s ease;
 }
+.sticky.is-visible{transform:translateY(0)}
 .sticky .btn{width:100%}
 @media(min-width:900px){.sticky{display:none}}
 @media(max-width:899px){body{padding-bottom:78px}}
