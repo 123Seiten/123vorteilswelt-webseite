@@ -69,10 +69,17 @@ const KONTAKT_HREF = `${base}#anfrage`;
   .er-trigger:hover{filter:brightness(.95)}
 
   .er-overlay{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.6);
-    align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto}
+    align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto;
+    opacity:0;transition:opacity .34s ease}
   .er-overlay:not([hidden]){display:flex}
+  .er-overlay.is-open{opacity:1}
   .er-modal{position:relative;background:#fff;border-radius:14px;max-width:520px;width:100%;
-    margin:auto;padding:28px 26px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+    margin:auto;padding:28px 26px;box-shadow:0 20px 60px rgba(0,0,0,.35);
+    transform:translateY(-48px);opacity:0;
+    transition:transform .38s cubic-bezier(.22,.9,.35,1),opacity .3s ease}
+  .er-overlay.is-open .er-modal{transform:translateY(0);opacity:1}
+  .er-modal.is-leaving{transform:translateY(64px);opacity:0;
+    transition:transform .3s ease-in,opacity .26s ease-in}
   .er-close{position:absolute;top:10px;right:14px;border:0;background:none;font-size:1.8rem;
     line-height:1;color:#555;cursor:pointer}
   .er-eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brand,#139e1c);font-weight:700;margin:0}
@@ -107,6 +114,10 @@ const KONTAKT_HREF = `${base}#anfrage`;
     .er-overlay{padding:0}
     .er-modal{border-radius:0;min-height:100vh;max-width:none}
     .er-row{grid-template-columns:1fr 120px}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    .er-overlay,.er-modal,.er-modal.is-leaving{transition:none}
   }
 </style>
 
@@ -164,19 +175,39 @@ const KONTAKT_HREF = `${base}#anfrage`;
     inputs[0].focus();
   });
 
-  // Popup öffnen/schließen
+  // Popup öffnen/schließen (mit Fall-Animation, respektiert prefers-reduced-motion)
+  const modal = overlay.querySelector('.er-modal') as HTMLElement;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let closeTimer: number | undefined;
   let lastFocused: HTMLElement | null = null;
+
   function open() {
+    window.clearTimeout(closeTimer);
     lastFocused = document.activeElement as HTMLElement;
+    modal.classList.remove('is-leaving');
     overlay.hidden = false;
     document.body.style.overflow = 'hidden';
     refreshOptions(); refreshCalc();
+    if (prefersReduced) {
+      overlay.classList.add('is-open');
+    } else {
+      requestAnimationFrame(() => requestAnimationFrame(() => overlay.classList.add('is-open')));
+    }
     selects[0].focus();
   }
   function close() {
-    overlay.hidden = true;
     document.body.style.overflow = '';
     if (lastFocused) lastFocused.focus();
+    overlay.classList.remove('is-open');
+    if (prefersReduced) {
+      overlay.hidden = true;
+      return;
+    }
+    modal.classList.add('is-leaving');
+    closeTimer = window.setTimeout(() => {
+      overlay.hidden = true;
+      modal.classList.remove('is-leaving');
+    }, 320);
   }
   trigger.addEventListener('click', open);
   overlay.querySelector('[data-er-cta]')!.addEventListener('click', close); // Popup schließen, dann zum Formular springen
