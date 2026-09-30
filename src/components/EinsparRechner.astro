@@ -22,7 +22,7 @@ const KONTAKT_HREF = `${base}#anfrage`;
 </button>
 
 <div class="er-overlay" data-er-overlay hidden>
-  <div class="er-modal" role="dialog" aria-modal="true" aria-labelledby="er-title">
+  <div class="er-modal" role="dialog" aria-modal="true" aria-labelledby="er-title" tabindex="-1">
     <button type="button" class="er-close" data-er-close aria-label="Schließen">×</button>
 
     <div class="er-photo-wrap">
@@ -89,6 +89,7 @@ const KONTAKT_HREF = `${base}#anfrage`;
   .er-overlay.is-open .er-modal{transform:translateY(0);opacity:1}
   .er-modal.is-leaving{transform:translateY(64px);opacity:0;
     transition:transform .3s ease-in,opacity .26s ease-in}
+  .er-modal:focus{outline:none}
   .er-modal-body{padding:28px 26px}
   .er-close{position:absolute;top:10px;right:14px;z-index:1;border:0;background:none;font-size:1.8rem;
     line-height:1;color:#555;cursor:pointer}
@@ -211,7 +212,9 @@ const KONTAKT_HREF = `${base}#anfrage`;
     } else {
       requestAnimationFrame(() => requestAnimationFrame(() => overlay.classList.add('is-open')));
     }
-    selects[0].focus();
+    // Modal selbst fokussieren, nicht das erste Dropdown: ein <select> öffnet auf
+    // iOS Safari bei Fokus sofort sein natives Auswahlmenü über dem frisch geöffneten Popup.
+    modal.focus();
   }
   function close() {
     document.body.style.overflow = '';
